@@ -23,8 +23,11 @@ Features
 * Post URL:
     `https://tag4u.sinaapp.com/objsys/append_tags/?username={username}&password={password}&selected_url={url}&description={description}&tags={tags}`
     
-* Query tags:
+* Query by tags:
     `http://tag4u.sinaapp.com/objsys/api/ufsobj/ufsobj/?format=json&username={username}&password={password}&tag=star`
+
+* Query by URL:
+    `http://tag4u.sinaapp.com/objsys/api/ufsobj/ufsobj/?format=json&username={username}&password={password}&ufs_url__contains=https://github.com/cmusphinx/pocketsphinx-android-demo`
 
 
 * TODO
