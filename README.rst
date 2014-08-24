@@ -22,6 +22,9 @@ Features
 
 * Post URL:
     `https://tag4u.sinaapp.com/objsys/append_tags/?username={username}&password={password}&selected_url={url}&description={description}&tags={tags}`
+    
+* Query tags:
+    `http://tag4u.sinaapp.com/objsys/api/ufsobj/ufsobj/?format=json&username={username}&password={password}&tag=star`
 
 
 * TODO
