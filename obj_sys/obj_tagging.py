@@ -20,9 +20,17 @@ from objsys.models import Description
 from objsys.view_utils import get_ufs_obj_from_ufs_url
 
 
-def get_or_create_obj_from_remote_or_local_url(url, user):
+def is_barcode(url):
+    if obj_tools.isUfsUrl(url):
+        protocol, content = obj_tools.parseUrl(url)
+        if protocol in ["bar"]:
+            return True
+    return False
+
+
+def get_or_create_obj_from_remote_or_local_url(url, user, ufs_obj_type=1):
     #Tag object
-    if obj_tools.is_web_url(url):
+    if obj_tools.is_web_url(url) or is_barcode(url):
         full_path = None
         obj_qs = UfsObj.objects.filter(ufs_url=url, user=user, valid=True)
         ufs_url = url
@@ -32,17 +40,18 @@ def get_or_create_obj_from_remote_or_local_url(url, user):
         ufs_url = obj_tools.getUfsUrlForPath(full_path)
     if 0 == obj_qs.count():
         obj = UfsObj(ufs_url=ufs_url, uuid=unicode(uuid.uuid4()), timestamp=timezone.now(),
-                     user=user, full_path=full_path)
+                     user=user, full_path=full_path, ufs_obj_type=ufs_obj_type)
         obj.save()
         obj_qs = [obj]
     return obj_qs
 
 
-def append_tags_and_description_to_url(user, url, tags, description):
-    obj_qs = get_or_create_obj_from_remote_or_local_url(url, user)
+def append_tags_and_description_to_url(user, url, tags, description, ufs_obj_type=1):
+    obj_qs = get_or_create_obj_from_remote_or_local_url(url, user, ufs_obj_type)
     description_obj, created = Description.objects.get_or_create(content=description)
     for obj in obj_qs:
         #obj.tags = tags
+        #TODO: update_tags seems remove existing tag, need to check
         Tag.objects.update_tags(obj, tags, tag_app='user:' + user.username)
         obj.descriptions.add(description_obj)
         obj.save()
@@ -89,11 +98,12 @@ def handle_append_tags_request(request):
 
     tags = req_with_auth.data.get("tags", None)
     description = req_with_auth.data.get("description", None)
+    ufs_obj_type = int(req_with_auth.data.get("ufs_obj_type", "1"))
     addedCnt = 0
     for query_param_list in req_with_auth.data.lists():
         if query_param_list[0] == "selected_url":
             for url in query_param_list[1]:
-                append_tags_and_description_to_url(request.user, url, tags, description)
+                append_tags_and_description_to_url(request.user, url, tags, description, ufs_obj_type)
                 addedCnt += 1
     return HttpResponse('{"result": "OK", "added": %d}' % addedCnt, mimetype="application/json")
 

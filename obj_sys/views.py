@@ -110,7 +110,9 @@ def listing(request):
 
 @login_required
 def listing_with_description(request):
-    objects = UfsObj.objects.filter(user=request.user, valid=True).order_by('-timestamp')
+    data = retrieve_param(request)
+    ufs_obj_type = int(data.get("type", "1"))
+    objects = UfsObj.objects.filter(user=request.user, valid=True, ufs_obj_type=ufs_obj_type).order_by('-timestamp')
     return render_to_response('objsys/listing_with_description_in_bootstrap.html',
                               {"objects": objects, "request": request, "title": "My bookmarks",
                                "email": "richardwangwang@gmail.com", "author": "Richard"},
