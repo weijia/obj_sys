@@ -6,13 +6,13 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
 
 from ufs_utils.django_utils import retrieve_param
-from objsys.models import UfsObj
+from models import UfsObj
 
 #from django.contrib.auth.models import User, Group
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from django.contrib.auth import authenticate, login
-from objsys.models import Description
+from models import Description
 
 
 class DjangoUserAuthentication(Authentication):

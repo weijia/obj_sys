@@ -15,9 +15,9 @@ from tagging.models import Tag
 from ufs_utils.django_utils import retrieve_param
 from ufs_utils.string_tools import SpecialEncoder
 import ufs_utils.obj_tools as obj_tools
-from objsys.models import UfsObj
-from objsys.models import Description
-from objsys.view_utils import get_ufs_obj_from_ufs_url
+from models import UfsObj
+from models import Description
+from view_utils import get_ufs_obj_from_ufs_url
 
 
 def is_barcode(url):

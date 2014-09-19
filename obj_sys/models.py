@@ -17,6 +17,8 @@ class Description(models.Model):
     def __unicode__(self):
         return unicode(self.content)
 
+    class Meta:
+        db_table = 'objsys_description'
 
 class UfsObj(models.Model):
     UFS_OBJ_TYPE_CHOICES = (
@@ -69,6 +71,9 @@ class UfsObj(models.Model):
                 pass
         return 'unknown'
 
+    class Meta:
+        db_table = 'objsys_ufsobj'
+
 
 class ObjRelation(models.Model):
     from_obj = models.ForeignKey(UfsObj, null=True, blank=True, related_name="from")
@@ -79,6 +84,8 @@ class ObjRelation(models.Model):
     timestamp = models.DateTimeField('date this object is published to database', auto_now_add=True)
     last_modified = models.DateTimeField('the last modified date for the object in database', auto_now=True)
 
+    class Meta:
+        db_table = 'objsys_ufsobj_relations'
 
 try:
     import tagging

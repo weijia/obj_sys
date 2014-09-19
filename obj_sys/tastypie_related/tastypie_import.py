@@ -2,8 +2,8 @@ import logging
 import random
 from django.contrib.auth.models import User
 from tagging.models import Tag
-from objsys.models import UfsObj, Description
-from objsys.tastypie_related.tasypie_item import TastypieItem
+from obj_sys.models import UfsObj, Description
+from obj_sys.tastypie_related.tasypie_item import TastypieItem
 
 
 log = logging.getLogger(__name__)

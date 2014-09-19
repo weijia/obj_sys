@@ -9,7 +9,7 @@ from django.template import RequestContext
 from obj_tagging import *
 from obj_operator import ObjOperator, ObjListOperator, handle_operation_request
 from ufs_utils.django_utils import retrieve_param
-from objsys.models import UfsObj
+from models import UfsObj
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
