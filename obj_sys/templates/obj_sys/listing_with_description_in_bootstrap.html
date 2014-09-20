@@ -2,9 +2,9 @@
 {% load pagination_tags %}
 
 {% block container %}
-<link rel="stylesheet" href="{{ STATIC_URL }}objsys/css/styles.css" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}obj_sys/css/styles.css" type="text/css">
 <link rel="stylesheet" href="{{ STATIC_URL }}tagging.css" type="text/css">
-<div><div class="add-new-url-div"><a class="btn" href="/objsys/tagging/">Add New URL</a></div>
+<div><div class="add-new-url-div"><a class="btn" href="/obj_sys/tagging/">Add New URL</a></div>
     <div class="both-clear-div"></div>
 </div>
 
@@ -19,7 +19,7 @@
             {% endfor %}
         </h4>
         <ul class="edit_links">
-            <li><a href="/objsys/operations/?cmd=rm&pk={{ bookmark.pk }}">Delete</a></li>
+            <li><a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}">Delete</a></li>
         </ul>
         <ul class="tags">
             {% for tag in bookmark.tags %}

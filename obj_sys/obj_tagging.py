@@ -67,13 +67,13 @@ def handle_append_tags_request(request):
     tags = req_with_auth.data.get("tags", None)
     description = req_with_auth.data.get("description", None)
     ufs_obj_type = int(req_with_auth.data.get("ufs_obj_type", "1"))
-    addedCnt = 0
+    added_cnt = 0
     for query_param_list in req_with_auth.data.lists():
         if query_param_list[0] == "selected_url":
             for url in query_param_list[1]:
                 append_tags_and_description_to_url(request.user, url, tags, description, ufs_obj_type)
-                addedCnt += 1
-    return HttpResponse('{"result": "OK", "added": %d}' % addedCnt, mimetype="application/json")
+                added_cnt += 1
+    return HttpResponse('{"result": "OK", "added": %d}' % added_cnt, mimetype="application/json")
 
 
 def remove_tag(request):

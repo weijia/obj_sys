@@ -29,8 +29,8 @@ window.close();
 <div id="tag-cloud-div">
     <label for="tag-input"><h4>Apply tags:</h4></label>
     <div>
-        {% tag_cloud_for_model objsys.UfsObj as objsys_tags with steps=9 min_count=0 distribution=log %}
-        {%for tag in objsys_tags%}
+        {% tag_cloud_for_model obj_sys.UfsObj as obj_sys_tags with steps=9 min_count=0 distribution=log %}
+        {%for tag in obj_sys_tags%}
         <span class="tag-span" style="font-size:1.{{tag.font_size}}em;" tag="{{tag.name}}">{{tag.name}}({{tag.count}})</span>
         {% endfor %}
         <div class="both-clear-div"></div>
