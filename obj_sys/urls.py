@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^remove_tag/$', 'obj_sys.obj_tagging.remove_tag'),
     url(r'^add_tag/$', 'obj_sys.obj_tagging.add_tag'),
     url(r'^get_tags/$', 'obj_sys.obj_tagging.get_tags'),
-    url(r'^taglist/$', ListView.as_view(
+    url(r'^tag_list/$', ListView.as_view(
             queryset=Tag.objects.all(),
             context_object_name='tagged_items',
             template_name='obj_sys/pane.html')),
