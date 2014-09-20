@@ -15,11 +15,12 @@ class ObjRelation(models.Model):
 try:
     import tagging
     tagging.register(UfsObj)
-except:
+except ImportError:
     pass
 
 
 try:
+    # noinspection PyUnresolvedReferences
     from mptt.models import MPTTModel, TreeForeignKey
 
     class UfsObjInTree(MPTTModel):

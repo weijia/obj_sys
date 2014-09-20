@@ -22,27 +22,27 @@ class Migration(SchemaMigration):
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('valid', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
-        db.send_create_signal('objsys', ['UfsObj'])
+        db.send_create_signal('obj_sys', ['UfsObj'])
 
         # Adding M2M table for field relations on 'UfsObj'
         m2m_table_name = db.shorten_name('objsys_ufsobj_relations')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('from_ufsobj', models.ForeignKey(orm['objsys.ufsobj'], null=False)),
-            ('to_ufsobj', models.ForeignKey(orm['objsys.ufsobj'], null=False))
+            ('from_ufsobj', models.ForeignKey(orm['obj_sys.ufsobj'], null=False)),
+            ('to_ufsobj', models.ForeignKey(orm['obj_sys.ufsobj'], null=False))
         ))
         db.create_unique(m2m_table_name, ['from_ufsobj_id', 'to_ufsobj_id'])
 
         # Adding model 'CollectionItem'
         db.create_table('objsys_collectionitem', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('obj', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['objsys.UfsObj'])),
+            ('obj', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['obj_sys.UfsObj'])),
             ('uuid', self.gf('django.db.models.fields.CharField')(default='a56beab3-fafa-4d7c-ac4d-08fed65d9d54', max_length=60)),
             ('id_in_col', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('timestamp', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
         ))
-        db.send_create_signal('objsys', ['CollectionItem'])
+        db.send_create_signal('obj_sys', ['CollectionItem'])
 
 
     def backwards(self, orm):
@@ -93,22 +93,22 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'objsys.collectionitem': {
+        'obj_sys.collectionitem': {
             'Meta': {'object_name': 'CollectionItem'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'id_in_col': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'obj': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['objsys.UfsObj']"}),
+            'obj': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['obj_sys.UfsObj']"}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'uuid': ('django.db.models.fields.CharField', [], {'default': "'d35b9541-389c-4a89-b672-bd6519a215e4'", 'max_length': '60'})
         },
-        'objsys.ufsobj': {
+        'obj_sys.ufsobj': {
             'Meta': {'object_name': 'UfsObj'},
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'full_path': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'head_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['objsys.UfsObj']"}),
+            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['obj_sys.UfsObj']"}),
             'size': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'total_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
@@ -119,4 +119,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['objsys']
+    complete_apps = ['obj_sys']

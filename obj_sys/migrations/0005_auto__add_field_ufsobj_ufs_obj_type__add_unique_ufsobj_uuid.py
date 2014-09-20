@@ -62,32 +62,32 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'objsys.description': {
+        'obj_sys.description': {
             'Meta': {'object_name': 'Description'},
             'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
-        'objsys.objrelation': {
+        'obj_sys.objrelation': {
             'Meta': {'object_name': 'ObjRelation'},
-            'from_obj': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'from'", 'null': 'True', 'to': "orm['objsys.UfsObj']"}),
+            'from_obj': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'from'", 'null': 'True', 'to': "orm['obj_sys.UfsObj']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'relation': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'to_obj': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'to'", 'null': 'True', 'to': "orm['objsys.UfsObj']"}),
+            'to_obj': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'to'", 'null': 'True', 'to': "orm['obj_sys.UfsObj']"}),
             'valid': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
-        'objsys.ufsobj': {
+        'obj_sys.ufsobj': {
             'Meta': {'object_name': 'UfsObj'},
             'description_json': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'descriptions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'descriptions'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['objsys.Description']"}),
+            'descriptions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'descriptions'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['obj_sys.Description']"}),
             'full_path': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'head_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'obj_created': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'obj_last_modified': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['objsys.UfsObj']"}),
+            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['obj_sys.UfsObj']"}),
             'size': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'total_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
@@ -99,4 +99,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['objsys']
+    complete_apps = ['obj_sys']

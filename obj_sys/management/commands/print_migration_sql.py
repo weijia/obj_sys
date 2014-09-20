@@ -12,7 +12,7 @@ class Command(BaseCommand):
         #kw = {'db-dry-run': 1,  'verbosity': 0}
         options["db-dry-run"] = 1
         options["verbosity"] = 0
-        #call_command('migrate objsys 0005_auto__add_field_ufsobj_ufs_obj_type', **kw)
+        #call_command('migrate obj_sys 0005_auto__add_field_ufsobj_ufs_obj_type', **kw)
         call_command("migrate", **options)
 
         for query in db.connection.queries:  

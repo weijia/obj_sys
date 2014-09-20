@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('content', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
-        db.send_create_signal('objsys', ['Description'])
+        db.send_create_signal('obj_sys', ['Description'])
 
         # Deleting field 'UfsObj.description'
         db.delete_column('objsys_ufsobj', 'description')
@@ -27,8 +27,8 @@ class Migration(SchemaMigration):
         m2m_table_name = db.shorten_name('objsys_ufsobj_descriptions')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('ufsobj', models.ForeignKey(orm['objsys.ufsobj'], null=False)),
-            ('description', models.ForeignKey(orm['objsys.description'], null=False))
+            ('ufsobj', models.ForeignKey(orm['obj_sys.ufsobj'], null=False)),
+            ('description', models.ForeignKey(orm['obj_sys.description'], null=False))
         ))
         db.create_unique(m2m_table_name, ['ufsobj_id', 'description_id'])
 
@@ -86,28 +86,28 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'objsys.collectionitem': {
+        'obj_sys.collectionitem': {
             'Meta': {'object_name': 'CollectionItem'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'id_in_col': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
-            'obj': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['objsys.UfsObj']"}),
+            'obj': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['obj_sys.UfsObj']"}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'uuid': ('django.db.models.fields.CharField', [], {'default': "'8d5aa7f9-68f6-4023-a454-6656c6edf210'", 'max_length': '60'})
         },
-        'objsys.description': {
+        'obj_sys.description': {
             'Meta': {'object_name': 'Description'},
             'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
-        'objsys.ufsobj': {
+        'obj_sys.ufsobj': {
             'Meta': {'object_name': 'UfsObj'},
             'description_json': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'descriptions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'descriptions'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['objsys.Description']"}),
+            'descriptions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'descriptions'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['obj_sys.Description']"}),
             'full_path': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'head_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['objsys.UfsObj']"}),
+            'relations': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'relations_rel_+'", 'null': 'True', 'to': "orm['obj_sys.UfsObj']"}),
             'size': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'total_md5': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
@@ -118,4 +118,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['objsys']
+    complete_apps = ['obj_sys']

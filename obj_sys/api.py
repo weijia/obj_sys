@@ -63,38 +63,51 @@ class UserResource(ModelResource):
         resource_name = 'user'
 '''
 
+
+# noinspection PyMethodMayBeStatic
 class UfsObjResource(ModelResource):
     #json_indent = 2
     #descriptions = fields.ToOneField(DescriptionResource, 'descriptions')
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
 
+    def get_ufs_objs_with_tags(self, tag):
+        try:
+            obj_tag = Tag.objects.get(name=tag)
+            # When enumerating tagged items use descent timestamp, it means newest first
+            ufs_objects = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(valid=True)
+        except:
+            ufs_objects = UfsObj.objects.none()
+        return ufs_objects
+
+    def is_new_tag_query(self, request, data):
+        """
+        There is a tag value in session and there is also a offset value in request, so it is a request to continue
+        the last tag query.
+        """
+        if ("tag" in request.session) and \
+                ("offset" in data):  # Do not have offset means it may be a new serial of object query
+            return True
+        return False
+
     def get_object_list(self, request):
         #return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
-        tag = None
-        if "tag" in request.session:
-            if "offset" in data:
-                tag = request.session["tag"]
-            else:
-                #Do not have offset means it may be a new serial of object query
-                del request.session["tag"]
 
-        if "tag" in data:
-            tag = data["tag"]
+        if self.is_new_tag_query(request, data):
+            tag_str = data.get("tag", None)
 
-        if tag is None:
+        if tag_str is None:
             if "all" in data:
-                return super(UfsObjResource, self).get_object_list(request)
-            return super(UfsObjResource, self).get_object_list(request).filter(valid=True)
+                ufs_objects = super(UfsObjResource, self).get_object_list(request)
+            else:
+                ufs_objects = super(UfsObjResource, self).get_object_list(request).filter(valid=True)
         else:
-            request.session["tag"] = tag
-            try:
-                obj_tag = Tag.objects.get(name=tag)
-                #When enumerating tagged items use descent timestamp, it means newest first
-                objs = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(valid=True)
-            except:
-                objs = UfsObj.objects.none()
-            return objs
+            request.session["tag"] = tag_str
+            ufs_objects = self.get_ufs_objs_with_tags(tag_str)
+
+        if "type" in data:
+            ufs_objects.filter(ufs_obj_type=int(data["type"]))
+        return ufs_objects
 
     def dehydrate(self, bundle):
         res = []
