@@ -7,6 +7,7 @@ from tagging.models import Tag
 from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
+from ufs_obj_in_tree_view import UfsObjInTreeView
 from rss import LatestEntriesFeed
 
 
@@ -35,7 +36,8 @@ urlpatterns = patterns('',
             context_object_name='tagged_items',
             template_name='obj_sys/pane.html')),
     (r'^api/ufsobj/', include(ufsobj_resource.urls)),      
-    #(r'^api/tag/', include(tag_resource.urls)),      
+    (r'^tree/', UfsObjInTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
+    #(r'^api/tag/', include(tag_resource.urls)),
     #url(r'^$', 'desktop.filemanager.views.index'),
     #url(r'^.+$', 'desktop.filemanager.views.handler'),
     #url(r'^homepage_all/$', 'obj_sys.views.homepage'),

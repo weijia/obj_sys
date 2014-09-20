@@ -43,8 +43,14 @@ class UfsObj(models.Model):
                                           help_text="Descriptions for this object")
     ufs_obj_type = models.IntegerField(choices=UFS_OBJ_TYPE_CHOICES, default=1)
 
+    def get_one_description(self):
+        try:
+            return self.descriptions.all()[0].content
+        except IndexError:
+            return ""
+
     def __unicode__(self):
-        return unicode(self.ufs_url + '---------> uuid:' + self.uuid)
+        return unicode(self.ufs_url + " - " + self.get_one_description() + '---------> uuid:' + self.uuid)
 
     def save(self, *args, **kwargs):
         if not (self.full_path is None):
