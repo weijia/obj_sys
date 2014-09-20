@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 @login_required
 def manager(request):
     data = retrieve_param(request)
-    c = {"user": request.user, "tree": {"name": "left_tree", "url": "/collection_management/jstree/?node="}}
+    c = {"user": request.user, "tree": {"name": "left_tree", "url": "/custom_collections/jstree/?node="}}
     c.update(csrf(request))
     return render_to_response('objsys/manager.html', c)
 
