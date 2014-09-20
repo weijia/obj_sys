@@ -29,5 +29,7 @@ Features
 * Query by URL:
     `http://tag4u.sinaapp.com/obj_sys/api/ufsobj/ufsobj/?format=json&username={username}&password={password}&ufs_url__contains=https://github.com/cmusphinx/pocketsphinx-android-demo`
 
+* Query ufs object in tree:
+    `http://tag4u.sinaapp.com/obj_sys/api/ufs_obj_in_tree/ufs_obj_in_tree/?format=json&username={username}&password={password}`
 
 * TODO

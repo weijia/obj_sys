@@ -4,14 +4,15 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from tagging.models import Tag
-from api import UfsObjResource
+from api import UfsObjResource, UfsObjInTreeResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
 from ufs_obj_in_tree_view import UfsObjInTreeView
 from rss import LatestEntriesFeed
 
 
-ufsobj_resource = UfsObjResource()
+ufs_obj_resource = UfsObjResource()
+ufs_obj_in_tree_resource = UfsObjInTreeResource()
 #tag_resource = TagResource()
 
 urlpatterns = patterns('',
@@ -35,8 +36,9 @@ urlpatterns = patterns('',
             queryset=Tag.objects.all(),
             context_object_name='tagged_items',
             template_name='obj_sys/pane.html')),
-    (r'^api/ufsobj/', include(ufsobj_resource.urls)),      
-    (r'^tree/', UfsObjInTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
+    (r'^api/ufsobj/', include(ufs_obj_resource.urls)),
+    (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
+    (r'^tree/', UfsObjInTreeView.as_view(template_name='obj_sys/mptt_tree   .html')),
     #(r'^api/tag/', include(tag_resource.urls)),
     #url(r'^$', 'desktop.filemanager.views.index'),
     #url(r'^.+$', 'desktop.filemanager.views.handler'),

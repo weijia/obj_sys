@@ -1,38 +1,17 @@
 from django.utils.timezone import is_naive
 from tastypie import fields
 from tastypie.resources import ModelResource
-from tastypie.authentication import Authentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
+from djangoautoconf.req_with_auth import DjangoUserAuthentication
 
 from ufs_utils.django_utils import retrieve_param
-from models import UfsObj
+from models import UfsObj, UfsObjInTree
 
 #from django.contrib.auth.models import User, Group
 from tagging.models import Tag
 from tagging.models import TaggedItem
-from django.contrib.auth import authenticate, login
 from models import Description
-
-
-class DjangoUserAuthentication(Authentication):
-    def is_authenticated(self, request, **kwargs):
-        data = retrieve_param(request)
-        if not request.user.is_authenticated():
-            username = data['username']
-            password = data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return True
-        else:
-            return True
-        return False
-
-    # Optional but recommended
-    def get_identifier(self, request):
-        return request.user.username
 
 
 #Ref: http://www.tryolabs.com/Blog/2013/03/16/displaying-timezone-aware-dates-tastypie/
@@ -52,6 +31,15 @@ class DescriptionResource(ModelResource):
     class Meta:
         queryset = Description.objects.all()
         resource_name = 'description'
+        #authentication = SessionAuthentication()
+        authentication = DjangoUserAuthentication()
+        authorization = DjangoAuthorization()
+
+
+class UfsObjInTreeResource(ModelResource):
+    class Meta:
+        queryset = UfsObjInTree.objects.all()
+        resource_name = 'ufs_obj_in_tree'
         #authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
