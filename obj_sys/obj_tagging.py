@@ -62,7 +62,9 @@ def append_tags_and_description_to_url(user, url, tags, description, ufs_obj_typ
 def handle_append_tags_request(request):
     req_with_auth = RequestWithAuth(request)
     if not req_with_auth.is_authenticated():
-        return HttpResponse(req_with_auth.get_error_json(), mimetype="application/json")
+        res = req_with_auth.get_error_dict()
+        res["result"] = "error"
+        return HttpResponse(json.dumps(res), mimetype="application/json")
 
     tags = req_with_auth.data.get("tags", None)
     description = req_with_auth.data.get("description", None)
