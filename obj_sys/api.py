@@ -80,6 +80,7 @@ class UfsObjResource(ModelResource):
     def get_object_list(self, request):
         #return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
+        tag_str = None
 
         if self.is_new_tag_query(request, data):
             tag_str = data.get("tag", None)
@@ -130,7 +131,7 @@ class UfsObjResource(ModelResource):
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
         filtering = {
-            "ufs_url": ('contains',),
+            "ufs_url": ('contains', 'exact'),
             "full_path": ('contains', 'iendswith'),
         }
         serializer = DateSerializerWithTimezone()
