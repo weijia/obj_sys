@@ -80,10 +80,11 @@ class UfsObjResource(ModelResource):
     def get_object_list(self, request):
         #return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
-        tag_str = None
 
         if self.is_new_tag_query(request, data):
             tag_str = data.get("tag", None)
+        else:
+            tag_str = request.session.get("tag", None)
 
         if tag_str is None:
             if "all" in data:
