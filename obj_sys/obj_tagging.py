@@ -29,7 +29,11 @@ def is_barcode(url):
     return False
 
 
-def get_or_create_obj_from_remote_or_local_url(url, user, ufs_obj_type=1):
+def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
+    """
+    Create object if url is not exist, otherwise use the existing one. So if an existing url is passed in
+    the existing item will be updated instead of creating a new one.
+    """
     #Tag object
     if obj_tools.is_web_url(url) or is_barcode(url):
         full_path = None
@@ -48,7 +52,7 @@ def get_or_create_obj_from_remote_or_local_url(url, user, ufs_obj_type=1):
 
 
 def append_tags_and_description_to_url(user, url, tags, description, ufs_obj_type=1):
-    obj_qs = get_or_create_obj_from_remote_or_local_url(url, user, ufs_obj_type)
+    obj_qs = get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type)
     description_obj, created = Description.objects.get_or_create(content=description)
     for obj in obj_qs:
         #obj.tags = tags

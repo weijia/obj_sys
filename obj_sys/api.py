@@ -1,4 +1,5 @@
 from django.utils.timezone import is_naive
+from mptt_models import UfsObjInTree
 from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization
@@ -6,7 +7,7 @@ from tastypie.serializers import Serializer
 from djangoautoconf.req_with_auth import DjangoUserAuthentication
 
 from ufs_utils.django_utils import retrieve_param
-from models import UfsObj, UfsObjInTree
+from models import UfsObj
 
 #from django.contrib.auth.models import User, Group
 from tagging.models import Tag
