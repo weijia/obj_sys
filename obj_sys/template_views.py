@@ -2,7 +2,7 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from django.views.generic import TemplateView
 from djangoautoconf.django_utils import retrieve_param
-from ufs_obj_models import UfsObj
+from models_ufs_obj import UfsObj
 
 __author__ = 'weijia'
 

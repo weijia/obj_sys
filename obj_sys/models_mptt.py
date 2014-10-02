@@ -1,4 +1,4 @@
-from ufs_obj_models import *
+from models_ufs_obj import *
 
 
 try:

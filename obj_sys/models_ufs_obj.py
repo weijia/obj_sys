@@ -45,7 +45,7 @@ class UfsObj(models.Model):
 
     def get_one_description(self):
         try:
-            return self.descriptions.all()[0].content
+            return self.descriptions.all().sort("-pk")[0].content
         except IndexError:
             return ""
 

@@ -1,5 +1,5 @@
 from django.utils.timezone import is_naive
-from mptt_models import UfsObjInTree
+from models_mptt import UfsObjInTree
 from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization

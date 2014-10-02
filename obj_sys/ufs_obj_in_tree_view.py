@@ -1,7 +1,7 @@
 from django.core.context_processors import csrf
 from django.views.generic import TemplateView
 from djangoautoconf.django_utils import retrieve_param
-from mptt_models import UfsObjInTree
+from models_mptt import UfsObjInTree
 
 
 class UfsObjInTreeView(TemplateView):
