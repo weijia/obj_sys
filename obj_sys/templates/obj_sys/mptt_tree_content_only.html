@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load mptt_tags %}
+{% block container %}
+<ul>
+    {% recursetree nodes %}
+        <li>
+            {{ node.ufs_obj.get_one_description }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+{% endblock %}
