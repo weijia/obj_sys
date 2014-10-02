@@ -17,6 +17,8 @@ class HomepageTemplateView(TemplateView):
         ufs_obj_type = int(data.get("type", "1"))
         objects = UfsObj.objects.filter(user=auth.get_user(self.request), valid=True,
                                         ufs_obj_type=ufs_obj_type).order_by('-timestamp')
+        if "keyword" in data:
+            objects = objects.filter(descriptions__content__contains=data["keyword"])
         c = {"objects": objects, "request": self.request, "title": "My bookmarks",
              "email": "richardwangwang@gmail.com", "author": "Richard"}
         c.update(csrf(self.request))

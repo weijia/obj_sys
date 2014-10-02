@@ -4,10 +4,11 @@
 {% block container %}
 <link rel="stylesheet" href="{{ STATIC_URL }}obj_sys/css/styles.css" type="text/css">
 <link rel="stylesheet" href="{{ STATIC_URL }}tagging.css" type="text/css">
+{% block resource_list_tool_bar %}
 <div><div class="add-new-url-div"><a class="btn" href="/obj_sys/tagging/">Add New URL</a></div>
     <div class="both-clear-div"></div>
 </div>
-
+{% endblock %}
 {% autopaginate objects 5 %}
 <ul id="bookmark_list">
     {% for bookmark in objects %}
