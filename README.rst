@@ -31,5 +31,8 @@ Features
 
 * Query ufs object in tree:
     `http://tag4u.sinaapp.com/obj_sys/api/ufs_obj_in_tree/ufs_obj_in_tree/?format=json&username={username}&password={password}`
+    
+* Query ufs object in tree for certain parent:
+    `http://tag4u.sinaapp.com/obj_sys/api/ufs_obj_in_tree/ufs_obj_in_tree/?format=json&parent_url=bar://EAN_13/6949566703847`
 
 * TODO
