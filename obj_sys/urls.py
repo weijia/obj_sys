@@ -4,9 +4,10 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from tagging.models import Tag
-from api import UfsObjResource, UfsObjInTreeResource
+from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
+from api_ufs_obj_in_tree import UfsObjInTreeResource
 from ufs_obj_in_tree_view import UfsObjInTreeView
 from rss import LatestEntriesFeed
 

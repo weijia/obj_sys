@@ -1,5 +1,4 @@
 from django.utils.timezone import is_naive
-from models_mptt import UfsObjInTree
 from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization
@@ -36,14 +35,6 @@ class DescriptionResource(ModelResource):
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
 
-
-class UfsObjInTreeResource(ModelResource):
-    class Meta:
-        queryset = UfsObjInTree.objects.all()
-        resource_name = 'ufs_obj_in_tree'
-        #authentication = SessionAuthentication()
-        authentication = DjangoUserAuthentication()
-        authorization = DjangoAuthorization()
 
 '''
 class UserResource(ModelResource):
