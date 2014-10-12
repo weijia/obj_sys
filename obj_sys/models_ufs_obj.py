@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.datetime_safe import datetime
 from djangoautoconf.django_utils import get_new_uuid
 
 
@@ -59,6 +60,9 @@ class UfsObj(models.Model):
                 set_fields_from_full_path(self)
             except:
                 pass
+        if not self.id:
+            self.obj_created = datetime.datetime.today()
+        self.obj_last_modified = datetime.datetime.today()
         super(UfsObj, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def get_type(self):
