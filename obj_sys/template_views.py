@@ -19,8 +19,11 @@ class HomepageTemplateView(TemplateView):
                                         ufs_obj_type=ufs_obj_type).order_by('-timestamp')
         if "keyword" in data:
             objects = objects.filter(descriptions__content__icontains=data["keyword"])
+            keyword = data["keyword"]
+        else:
+            keyword = ""
         c = {"objects": objects, "request": self.request, "title": "My bookmarks",
-             "email": "richardwangwang@gmail.com", "author": "Richard"}
+             "email": "richardwangwang@gmail.com", "author": "Richard", "keyword": keyword}
         c.update(csrf(self.request))
         context.update(c)
         return context
