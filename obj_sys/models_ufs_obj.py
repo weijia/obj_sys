@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.datetime_safe import datetime
 from djangoautoconf.django_utils import get_new_uuid
+import datetime
 
 
 class Description(models.Model):
