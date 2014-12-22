@@ -4,6 +4,7 @@ from tastypie.authorization import DjangoAuthorization
 from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import DjangoUserAuthentication
 from models_mptt import UfsObjInTree
+from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
 from tastypie import fields
 
@@ -28,6 +29,11 @@ class UfsObjInTreeResource(ModelResource):
         #authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
+
+        filtering = {
+            "ufs_obj": ALL_WITH_RELATIONS,
+        }
+
 
     def get_object_list(self, request):
         data = retrieve_param(request)
