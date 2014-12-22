@@ -32,8 +32,11 @@ class UfsObjInTreeResource(ModelResource):
     def get_object_list(self, request):
         data = retrieve_param(request)
         if "parent_url" in data:
-            query_req = {"valid": True, "ufs_obj_type": 2, "ufs_url": data["parent_url"], "user": request.user}
-            parent_obj = UfsObj.objects.filter(**query_req)
-            parent_obj_in_tree = UfsObjInTree.objects.filter(ufs_obj=parent_obj)[0]
+            if data["parent_url"] == "bar://root":
+                parent_obj_in_tree = None
+            else:
+                query_req = {"valid": True, "ufs_obj_type": 2, "ufs_url": data["parent_url"], "user": request.user}
+                parent_obj = UfsObj.objects.filter(**query_req)
+                parent_obj_in_tree = UfsObjInTree.objects.filter(ufs_obj=parent_obj)[0]
             return UfsObjInTree.objects.filter(parent=parent_obj_in_tree)
         return super(UfsObjInTreeResource, self).get_object_list(request)

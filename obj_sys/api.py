@@ -1,5 +1,6 @@
 from django.utils.timezone import is_naive
 from tastypie import fields
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
@@ -34,7 +35,9 @@ class DescriptionResource(ModelResource):
         #authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
-
+        filtering = {
+            "content": ALL,
+        }
 
 '''
 class UserResource(ModelResource):
@@ -126,6 +129,8 @@ class UfsObjResource(ModelResource):
         filtering = {
             "ufs_url": ('contains', 'exact'),
             "full_path": ('contains', 'iendswith'),
+            "descriptions": ALL_WITH_RELATIONS,
+            "ufs_obj_type": ALL,
         }
         serializer = DateSerializerWithTimezone()
 
