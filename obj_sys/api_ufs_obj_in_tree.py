@@ -46,3 +46,8 @@ class UfsObjInTreeResource(ModelResource):
                 parent_obj_in_tree = UfsObjInTree.objects.filter(ufs_obj=parent_obj)[0]
             return UfsObjInTree.objects.filter(parent=parent_obj_in_tree)
         return super(UfsObjInTreeResource, self).get_object_list(request)
+        
+    def dehydrate(self, bundle):
+        if not (bundle.obj.parent is None):
+            bundle.data["parent"] = bundle.obj.parent.ufs_obj.ufs_url
+        return bundle
