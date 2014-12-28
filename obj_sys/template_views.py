@@ -23,7 +23,8 @@ class HomepageTemplateView(TemplateView):
         else:
             keyword = ""
         c = {"objects": objects, "request": self.request, "title": "My bookmarks",
-             "email": "richardwangwang@gmail.com", "author": "Richard", "keyword": keyword}
+             "email": "richardwangwang@gmail.com", "author": "Richard", "keyword": keyword,
+             "type": ufs_obj_type}
         c.update(csrf(self.request))
         context.update(c)
         return context
