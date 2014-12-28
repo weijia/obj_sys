@@ -2,7 +2,7 @@ import logging
 from django.core.context_processors import csrf
 from add_tag_template_view import AddTagTemplateView
 from djangoautoconf.django_utils import retrieve_param
-from ufs_utils.string_tools import unquote_unicode
+from libtool.string_tools import unquote_unicode
 
 
 class AddTagTemplateViewLocal(AddTagTemplateView):

@@ -1,6 +1,6 @@
 #from django.conf.urls import patterns, include, url
 #import libsys
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from tagging.models import Tag

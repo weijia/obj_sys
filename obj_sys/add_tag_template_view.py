@@ -1,10 +1,10 @@
 from django.core.context_processors import csrf
 from django.views.generic import TemplateView
+from djangoautoconf.django_utils import retrieve_param
+from libtool.string_tools import SpecialEncoder
 from models import UfsObj
 from obj_tagging import append_tags_and_description_to_url
-from ufs_utils import obj_tools
-from ufs_utils.django_utils import retrieve_param
-from ufs_utils.string_tools import SpecialEncoder
+import obj_tools
 
 
 class AddTagTemplateView(TemplateView):
@@ -18,26 +18,21 @@ class AddTagTemplateView(TemplateView):
         self.tagged_urls = []
         self.stored_url = []
         self.listed_urls = []
+        self.is_submitting_tagging = False
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super(AddTagTemplateView, self).get_context_data(**kwargs)
+    def get_requesting_url_and_tag_pair(self):
         data = retrieve_param(self.request)
-
-        #Load saved submitted_url
+        # Load saved submitted_url
         if "saved_urls" in self.request.session:
             self.stored_url = self.request.session["saved_urls"]
 
-        close_flag = False
         self.retrieve_encoding(data)
-
         if "tags" in data:
             self.tags = data["tags"]
-
         decoder = SpecialEncoder()
-
         for query_param_list in data.lists():
             if query_param_list[0] == "url":
                 all_urls = []
@@ -49,15 +44,18 @@ class AddTagTemplateView(TemplateView):
                         #print query_param_list, urls
                         self.listed_urls.append(submitted_url)
             if query_param_list[0] == 'selected_url':
-                close_flag = True
+                self.is_submitting_tagging = True
                 for submitted_url in query_param_list[1]:
                     self.tag_url(submitted_url)
-
         self.request.session["saved_urls"] = self.listed_urls
-
         urls_with_tags = self.get_urls_with_tags()
+        return  urls_with_tags
 
-        c = {"user": self.request.user, "close_flag": close_flag, "urls_with_tags": urls_with_tags,
+    def get_context_data(self, **kwargs):
+        context = super(AddTagTemplateView, self).get_context_data(**kwargs)
+        urls_with_tags = self.get_requesting_url_and_tag_pair()
+
+        c = {"user": self.request.user, "close_flag": self.is_submitting_tagging, "urls_with_tags": urls_with_tags,
              "new_url_input": False}
         if 0 == len(urls_with_tags):
             c["new_url_input"] = True

@@ -1,6 +1,6 @@
-from obj_related.json_decoder_for_ufs_obj import JsonDecoderForUfsObj
-from ufs_utils import transform as transform
-from ufs_utils.obj_tools import getUfsUrlForPath
+#from obj_related.json_decoder_for_ufs_obj import JsonDecoderForUfsObj
+from libtool import format_path
+from obj_tools import get_ufs_url_for_local_path
 from models import UfsObj
 
 __author__ = 'Richard'
@@ -16,6 +16,7 @@ def get_ufs_obj_from_ufs_url(ufs_url):
     return obj
 
 
+"""
 def get_ufs_obj_from_json(json_dict):
     decoded_obj = JsonDecoderForUfsObj(json_dict)
     if decoded_obj.is_full_path_valid() and decoded_obj.is_ufs_url_valid():
@@ -29,6 +30,7 @@ def get_ufs_obj_from_json(json_dict):
         param_dict["valid"] = True
         ufs_obj, created = UfsObj.objects.get_or_create(**param_dict)
     return ufs_obj
+"""
 
 
 def get_or_create_ufs_obj_from_path_and_url(full_path, ufs_url):
@@ -50,10 +52,10 @@ def get_or_create_ufs_obj_from_path_and_url(full_path, ufs_url):
 
 
 def get_ufs_obj_from_full_path(full_path):
-    full_path = transform.format_path(full_path)
+    full_path = format_path(full_path)
     obj_list = UfsObj.objects.filter(full_path=full_path)
     if 0 == obj_list.count():
-        ufs_url = getUfsUrlForPath(full_path)
+        ufs_url = get_ufs_url_for_local_path(full_path)
         obj = UfsObj(ufs_url=ufs_url, full_path=full_path)
         obj.save()
     else:

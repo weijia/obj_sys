@@ -11,6 +11,7 @@ window.close();
 
 <form action="." method="POST">
 {% csrf_token %}
+{% block url_input %}
 <ul>
     {% for url_with_tags in urls_with_tags %}
         <li><input name="selected_url" type="checkbox" value="{{ url_with_tags.url }}" checked="checked">
@@ -26,6 +27,7 @@ window.close();
 {% if new_url_input %}
     <label for="input-url">Please input URL:</label> <input id="input-url" type="text" name="selected_url"></input>
 {% endif %}
+{% endblock %}
 <div id="tag-cloud-div">
     <label for="tag-input"><h4>Apply tags:</h4></label>
     <div>

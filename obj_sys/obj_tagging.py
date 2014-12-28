@@ -12,10 +12,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from tagging.models import Tag
+from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import RequestWithAuth
-from ufs_utils.django_utils import retrieve_param
-from ufs_utils.string_tools import SpecialEncoder
-import ufs_utils.obj_tools as obj_tools
+import obj_tools
 from models import UfsObj
 from models import Description
 from view_utils import get_ufs_obj_from_ufs_url
@@ -42,7 +41,7 @@ def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
     else:
         full_path = obj_tools.get_full_path_for_local_os(url)
         obj_qs = UfsObj.objects.filter(full_path=full_path)
-        ufs_url = obj_tools.getUfsUrlForPath(full_path)
+        ufs_url = obj_tools.get_ufs_url_for_local_path(full_path)
     if 0 == obj_qs.count():
         obj = UfsObj(ufs_url=ufs_url, uuid=unicode(uuid.uuid4()), timestamp=timezone.now(),
                      user=user, full_path=full_path, ufs_obj_type=ufs_obj_type)

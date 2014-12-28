@@ -1,7 +1,7 @@
 import json
 from django.http import HttpResponse
+from djangoautoconf.django_utils import retrieve_param
 from models import UfsObj
-from ufs_utils.django_utils import retrieve_param
 
 
 class ObjOperator(object):

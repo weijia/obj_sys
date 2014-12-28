@@ -1,5 +1,5 @@
 import logging
-from ufs_utils.obj_tools import is_web_url, is_ufs_url
+from obj_sys.obj_tools import is_web_url, is_ufs_url
 
 log = logging.getLogger(__name__)
 

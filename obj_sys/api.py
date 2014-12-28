@@ -4,9 +4,9 @@ from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
+from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import DjangoUserAuthentication
 
-from ufs_utils.django_utils import retrieve_param
 from models import UfsObj
 
 #from django.contrib.auth.models import User, Group
