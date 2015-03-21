@@ -11,8 +11,8 @@ class Description(models.Model):
     def __unicode__(self):
         return unicode(self.content)
 
-    class Meta:
-        db_table = 'objsys_description'
+    # class Meta:
+    #     db_table = 'objsys_description'
 
 
 class UfsObj(models.Model):
@@ -75,5 +75,5 @@ class UfsObj(models.Model):
                 pass
         return 'unknown'
 
-    class Meta:
-        db_table = 'objsys_ufsobj'
+    # class Meta:
+    #     db_table = 'objsys_ufsobj'

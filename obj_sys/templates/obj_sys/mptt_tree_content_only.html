@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load mptt_tags %}
+{% block pretitle %}<h1>My storage room</h1>{% endblock %}
 {% block container %}
 <ul>
     {% recursetree nodes %}

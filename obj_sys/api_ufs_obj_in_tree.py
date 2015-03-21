@@ -21,7 +21,7 @@ class FilterCollection(object):
 
 
 class UfsObjInTreeResource(ModelResource):
-    ufs_obj = fields.ForeignKey(UfsObjResource, 'ufs_obj', full=True)
+    ufs_obj = fields.ForeignKey(UfsObjResource, 'ufs_obj', full=True, null=True)
 
     class Meta:
         queryset = UfsObjInTree.objects.all()
@@ -33,7 +33,6 @@ class UfsObjInTreeResource(ModelResource):
         filtering = {
             "ufs_obj": ALL_WITH_RELATIONS,
         }
-
 
     def get_object_list(self, request):
         data = retrieve_param(request)

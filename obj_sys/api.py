@@ -5,7 +5,7 @@ from tastypie.resources import ModelResource
 from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
 from djangoautoconf.django_utils import retrieve_param
-from djangoautoconf.req_with_auth import DjangoUserAuthentication
+from djangoautoconf.req_with_auth import DjangoUserAuthentication, verify_access_token
 
 from models import UfsObj
 
@@ -91,7 +91,11 @@ class UfsObjResource(ModelResource):
             ufs_objects = self.get_ufs_objs_with_tags(tag_str)
 
         if "type" in data:
-            ufs_objects.filter(ufs_obj_type=int(data["type"]))
+            ubs_objects = ufs_objects.filter(ufs_obj_type=int(data["type"]))
+
+        if "consumer_key" in data:
+            ufs_objects = ufs_objects.filter(user=verify_access_token(data["consumer_key"]).user)
+        
         return ufs_objects
 
     def dehydrate(self, bundle):
