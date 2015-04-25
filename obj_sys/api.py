@@ -15,7 +15,7 @@ from tagging.models import TaggedItem
 from models import Description
 
 
-#Ref: http://www.tryolabs.com/Blog/2013/03/16/displaying-timezone-aware-dates-tastypie/
+# Ref: http://www.tryolabs.com/Blog/2013/03/16/displaying-timezone-aware-dates-tastypie/
 class DateSerializerWithTimezone(Serializer):
     """
     Our own serializer to format datetimes in ISO 8601 but with timezone
@@ -73,7 +73,7 @@ class UfsObjResource(ModelResource):
         return False
 
     def get_object_list(self, request):
-        #return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
+        # return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
 
         if self.is_new_tag_query(request, data):
@@ -124,10 +124,10 @@ class UfsObjResource(ModelResource):
     '''
 
     class Meta:
-        #When listing all ufs objects, sort timestamp ascend, it means oldest first
+        # When listing all ufs objects, sort timestamp ascend, it means oldest first
         queryset = UfsObj.objects.all().order_by("timestamp")
         resource_name = 'ufsobj'
-        #authentication = SessionAuthentication()
+        # authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
         filtering = {
