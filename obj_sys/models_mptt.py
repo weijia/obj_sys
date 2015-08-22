@@ -11,7 +11,10 @@ try:
         user = models.ForeignKey(User, null=True, blank=True)
 
         def __unicode__(self):
-            return unicode(self.ufs_obj.ufs_url + '---------> uuid:' + self.ufs_obj.uuid)
+            try:
+                return unicode(self.ufs_obj.ufs_url + '---------> uuid:' + self.ufs_obj.uuid)
+            except:
+                return "ufs obj is null"
 
 except ImportError:
     pass

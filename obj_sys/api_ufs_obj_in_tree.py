@@ -21,7 +21,7 @@ class FilterCollection(object):
 
 
 class UfsObjInTreeResource(ModelResource):
-    ufs_obj = fields.ForeignKey(UfsObjResource, 'ufs_obj', full=True)
+    ufs_obj = fields.ForeignKey(UfsObjResource, 'ufs_obj', full=True, null=True)
 
     class Meta:
         queryset = UfsObjInTree.objects.all()
@@ -34,7 +34,6 @@ class UfsObjInTreeResource(ModelResource):
             "ufs_obj": ALL_WITH_RELATIONS,
         }
 
-
     def get_object_list(self, request):
         data = retrieve_param(request)
         if "parent_url" in data:
@@ -44,7 +43,7 @@ class UfsObjInTreeResource(ModelResource):
                 query_req = {"valid": True, "ufs_obj_type": 2, "ufs_url": data["parent_url"], "user": request.user}
                 parent_obj = UfsObj.objects.filter(**query_req)
                 parent_obj_in_tree = UfsObjInTree.objects.filter(ufs_obj=parent_obj)[0]
-            return UfsObjInTree.objects.filter(parent=parent_obj_in_tree)
+            return UfsObjInTree.objects.filter(parent=parent_obj_in_tree, user=request.user)
         return super(UfsObjInTreeResource, self).get_object_list(request)
         
     def dehydrate(self, bundle):
