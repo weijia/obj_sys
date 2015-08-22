@@ -9,7 +9,7 @@ window.close();
 {% else %}
 <link href="{{ STATIC_URL }}tagging.css" type="text/css" rel="stylesheet" />
 
-<form action="." method="POST">
+<form class="form-inline"  action="." method="POST">
 {% csrf_token %}
 {% block url_input %}
 <ul>
@@ -25,7 +25,11 @@ window.close();
     {% endfor %}
 </ul>
 {% if new_url_input %}
-    <label for="input-url">Please input URL:</label> <input id="input-url" type="text" name="selected_url"></input>
+    <div class="form-group">
+    <label class="control-label" for="input-url">Please input URL:</label>
+        <input class="form-control"  id="input-url" type="text" name="selected_url">
+        </input>
+    </div>
 {% endif %}
 {% endblock %}
 <div id="tag-cloud-div">
@@ -40,7 +44,7 @@ window.close();
 </div>
 <br/>
 <div>
-    <input type="text" name="tags" id="tag-input">
+    <input class="form-control" type="text" name="tags" id="tag-input">
     <input class="btn" type="submit" value="submit"/>
 </div>
 <link href="/static/jquery-ui-1.10.2/themes/base/minified/jquery-ui.min.css" type="text/css" rel="stylesheet" />
