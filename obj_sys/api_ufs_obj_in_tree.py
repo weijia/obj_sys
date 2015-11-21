@@ -43,7 +43,8 @@ class UfsObjInTreeResource(ModelResource):
                 query_req = {"valid": True, "ufs_obj_type": 2, "ufs_url": data["parent_url"], "user": request.user}
                 parent_obj = UfsObj.objects.filter(**query_req)
                 parent_obj_in_tree = UfsObjInTree.objects.filter(ufs_obj=parent_obj)[0]
-            return UfsObjInTree.objects.filter(parent=parent_obj_in_tree, user=request.user)
+            return UfsObjInTree.objects.filter(parent=parent_obj_in_tree, user=request.user,
+                                               ufs_obj__valid=True)
         return super(UfsObjInTreeResource, self).get_object_list(request)
         
     def dehydrate(self, bundle):

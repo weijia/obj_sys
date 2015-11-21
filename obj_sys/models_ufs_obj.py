@@ -19,7 +19,8 @@ class UfsObj(models.Model):
     UFS_OBJ_TYPE_CHOICES = (
         (1, 'UFS OBJ TYPE (file or URL)'),
         (2, 'STORAGE_ITEM'),
-        (3, 'TBD')
+        (3, 'CLIPBOARD'),
+        (4, 'TBD'),
     )
     full_path = models.TextField(null=True, blank=True)
     ufs_url = models.TextField(help_text='start with ufs:// or uuid:// etc.')

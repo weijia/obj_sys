@@ -33,7 +33,7 @@ def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
     Create object if url is not exist, otherwise use the existing one. So if an existing url is passed in
     the existing item will be updated instead of creating a new one.
     """
-    #Tag object
+    # Tag object
     if obj_tools.is_web_url(url) or is_barcode(url):
         full_path = None
         obj_qs = UfsObj.objects.filter(ufs_url=url, user=user, valid=True)
@@ -54,8 +54,8 @@ def append_tags_and_description_to_url(user, url, tags, description, ufs_obj_typ
     obj_qs = get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type)
     description_obj, created = Description.objects.get_or_create(content=description)
     for obj in obj_qs:
-        #obj.tags = tags
-        #TODO: update_tags seems remove existing tag, need to check
+        # obj.tags = tags
+        # TODO: update_tags seems remove existing tag, need to check
         Tag.objects.update_tags(obj, tags, tag_app='user:' + user.username)
         obj.descriptions.add(description_obj)
         obj.save()
