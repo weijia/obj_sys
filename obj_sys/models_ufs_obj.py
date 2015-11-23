@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.datetime_safe import datetime
+from pytz import utc
+
 from djangoautoconf.django_utils import get_new_uuid
-import datetime
 
 
 class Description(models.Model):
@@ -11,8 +12,8 @@ class Description(models.Model):
     def __unicode__(self):
         return unicode(self.content)
 
-    # class Meta:
-    #     db_table = 'objsys_description'
+        # class Meta:
+        #     db_table = 'objsys_description'
 
 
 class UfsObj(models.Model):
@@ -59,22 +60,22 @@ class UfsObj(models.Model):
         if not (self.full_path is None):
             try:
                 from objsys_local.views import set_fields_from_full_path
+
                 set_fields_from_full_path(self)
             except:
                 pass
         if not self.id:
-            self.obj_created = datetime.datetime.today()
-        self.obj_last_modified = datetime.datetime.today()
+            self.obj_created = datetime.utcnow().replace(tzinfo=utc)
+        self.obj_last_modified = datetime.utcnow().replace(tzinfo=utc)
         super(UfsObj, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def get_type(self):
         if not (self.full_path is None):
             try:
                 from objsys_local.views import get_type_from_full_path
+
                 return get_type_from_full_path(self)
             except ImportError:
                 pass
         return 'unknown'
 
-    # class Meta:
-    #     db_table = 'objsys_ufsobj'
