@@ -30,22 +30,22 @@ class Migration(SchemaMigration):
 
         # Adding field 'UfsObj.lft'
         db.add_column('obj_sys_ufsobj', u'lft',
-                      self.gf('django.db.models.fields.PositiveIntegerField')(default=None, db_index=True),
+                      self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True),
                       keep_default=False)
 
         # Adding field 'UfsObj.rght'
         db.add_column('obj_sys_ufsobj', u'rght',
-                      self.gf('django.db.models.fields.PositiveIntegerField')(default=None, db_index=True),
+                      self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True),
                       keep_default=False)
 
         # Adding field 'UfsObj.tree_id'
         db.add_column('obj_sys_ufsobj', u'tree_id',
-                      self.gf('django.db.models.fields.PositiveIntegerField')(default=None, db_index=True),
+                      self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True),
                       keep_default=False)
 
         # Adding field 'UfsObj.level'
         db.add_column('obj_sys_ufsobj', u'level',
-                      self.gf('django.db.models.fields.PositiveIntegerField')(default=None, db_index=True),
+                      self.gf('django.db.models.fields.PositiveIntegerField')(default=1, db_index=True),
                       keep_default=False)
 
 
@@ -142,7 +142,7 @@ class Migration(SchemaMigration):
             'ufs_obj_type': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'ufs_url': ('django.db.models.fields.TextField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'uuid': ('django.db.models.fields.CharField', [], {'default': "'74496584-a262-4eec-8416-c9f87408d973'", 'unique': 'True', 'max_length': '60'}),
+            'uuid': ('django.db.models.fields.CharField', [], {'default': "'88490d8b-e119-43fd-94ef-17e16b33f771'", 'unique': 'True', 'max_length': '60'}),
             'valid': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
         },
         'obj_sys.ufsobjintree': {
