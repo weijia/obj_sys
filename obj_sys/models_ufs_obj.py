@@ -57,7 +57,7 @@ class UfsObj(MPTTModel):
     source = models.IntegerField(choices=UFS_SOURCE_CHOICES, default=1, null=True, blank=True)
     source_ip = models.CharField(max_length=60, null=True, blank=True,
                                  help_text="IP address from which the object was posted")
-    position = GeopositionField()
+    position = GeopositionField(default=None, null=True, blank=True)
 
     def get_one_description(self):
         try:
