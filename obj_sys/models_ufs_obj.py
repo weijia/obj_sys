@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.datetime_safe import datetime
 from pytz import utc
-
+from mptt.models import MPTTModel, TreeForeignKey
+from geoposition.fields import GeopositionField
 from djangoautoconf.django_utils import get_new_uuid
 
 
@@ -16,10 +17,16 @@ class Description(models.Model):
         #     db_table = 'objsys_description'
 
 
-class UfsObj(models.Model):
+class UfsObj(MPTTModel):
     UFS_OBJ_TYPE_CHOICES = (
         (1, 'UFS OBJ TYPE (file or URL)'),
         (2, 'STORAGE_ITEM'),
+        (3, 'CLIPBOARD'),
+        (4, 'TBD'),
+    )
+    UFS_SOURCE_CHOICES = (
+        (1, 'WEB_POST'),
+        (2, 'STORAGE_MANAGER'),
         (3, 'CLIPBOARD'),
         (4, 'TBD'),
     )
@@ -46,6 +53,11 @@ class UfsObj(models.Model):
     descriptions = models.ManyToManyField(Description, related_name='descriptions', null=True, blank=True,
                                           help_text="Descriptions for this object")
     ufs_obj_type = models.IntegerField(choices=UFS_OBJ_TYPE_CHOICES, default=1)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+    source = models.IntegerField(choices=UFS_SOURCE_CHOICES, default=1, null=True, blank=True)
+    source_ip = models.CharField(max_length=60, null=True, blank=True,
+                                 help_text="IP address from which the object was posted")
+    position = GeopositionField()
 
     def get_one_description(self):
         try:
