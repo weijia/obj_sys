@@ -6,10 +6,8 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.serializers import Serializer
 from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import DjangoUserAuthentication, verify_access_token
-
 from models import UfsObj
-
-#from django.contrib.auth.models import User, Group
+# from django.contrib.auth.models import User, Group
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from models import Description
@@ -21,6 +19,7 @@ class DateSerializerWithTimezone(Serializer):
     Our own serializer to format datetimes in ISO 8601 but with timezone
     offset.
     """
+
     def format_datetime(self, data):
         # If naive or rfc-2822, default behavior...
         if is_naive(data) or self.datetime_formatting == 'rfc-2822':
@@ -32,12 +31,13 @@ class DescriptionResource(ModelResource):
     class Meta:
         queryset = Description.objects.all()
         resource_name = 'description'
-        #authentication = SessionAuthentication()
+        # authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
         filtering = {
             "content": ALL,
         }
+
 
 '''
 class UserResource(ModelResource):
@@ -49,8 +49,8 @@ class UserResource(ModelResource):
 
 # noinspection PyMethodMayBeStatic
 class UfsObjResource(ModelResource):
-    #json_indent = 2
-    #descriptions = fields.ToOneField(DescriptionResource, 'descriptions')
+    # json_indent = 2
+    # descriptions = fields.ToOneField(DescriptionResource, 'descriptions')
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
 
     def get_ufs_objs_with_tags(self, tag):
@@ -95,7 +95,7 @@ class UfsObjResource(ModelResource):
 
         if "consumer_key" in data:
             ufs_objects = ufs_objects.filter(user=verify_access_token(data["consumer_key"]).user)
-        
+
         return ufs_objects
 
     def dehydrate(self, bundle):

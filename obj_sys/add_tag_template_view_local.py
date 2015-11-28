@@ -23,11 +23,11 @@ class AddTagTemplateViewLocal(AddTagTemplateView):
             self.append_to_listed_urls(url)
 
     def get_context_data(self, **kwargs):
-        #context = super(AddTagTemplateView, self).get_context_data(**kwargs)
+        # context = super(AddTagTemplateView, self).get_context_data(**kwargs)
         context = {}
         data = retrieve_param(self.request)
 
-        #Load saved submitted_url
+        # Load saved submitted_url
         if "saved_urls" in self.request.session:
             self.listed_urls = self.request.session["saved_urls"]
 
@@ -65,6 +65,6 @@ class AddTagTemplateViewLocal(AddTagTemplateView):
             c["new_url_input"] = True
         c.update(csrf(self.request))
         context.update(c)
-        #log = logging.getLogger(__name__)
-        #log.error(context)
+        # log = logging.getLogger(__name__)
+        # log.error(context)
         return context

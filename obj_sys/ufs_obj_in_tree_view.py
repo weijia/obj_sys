@@ -9,7 +9,7 @@ class UfsObjInTreeView(TemplateView):
         super(UfsObjInTreeView, self).__init__(**kwargs)
 
     def get_context_data(self, **kwargs):
-        #context = super(AddTagTemplateView, self).get_context_data(**kwargs)
+        # context = super(AddTagTemplateView, self).get_context_data(**kwargs)
         context = {}
         data = retrieve_param(self.request)
         if "root" in data:
@@ -21,6 +21,6 @@ class UfsObjInTreeView(TemplateView):
         c = {"user": self.request.user, "nodes": tree_items}
         c.update(csrf(self.request))
         context.update(c)
-        #log = logging.getLogger(__name__)
-        #log.error(context)
+        # log = logging.getLogger(__name__)
+        # log.error(context)
         return context

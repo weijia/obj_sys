@@ -26,7 +26,7 @@ class UfsObjInTreeResource(ModelResource):
     class Meta:
         queryset = UfsObjInTree.objects.all()
         resource_name = 'ufs_obj_in_tree'
-        #authentication = SessionAuthentication()
+        # authentication = SessionAuthentication()
         authentication = DjangoUserAuthentication()
         authorization = DjangoAuthorization()
 
@@ -46,7 +46,7 @@ class UfsObjInTreeResource(ModelResource):
             return UfsObjInTree.objects.filter(parent=parent_obj_in_tree, user=request.user,
                                                ufs_obj__valid=True)
         return super(UfsObjInTreeResource, self).get_object_list(request)
-        
+
     def dehydrate(self, bundle):
         if not (bundle.obj.parent is None):
             bundle.data["parent"] = bundle.obj.parent.ufs_obj.ufs_url

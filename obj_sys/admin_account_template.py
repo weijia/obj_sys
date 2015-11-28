@@ -1,2 +1,2 @@
-admin_user="richard"
-admin_password="richard"
+admin_user = "richard"
+admin_password = "richard"

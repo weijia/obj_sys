@@ -21,8 +21,8 @@ from view_utils import get_ufs_obj_from_ufs_url
 
 
 def is_barcode(url):
-    if obj_tools.isUfsUrl(url):
-        protocol, content = obj_tools.parseUrl(url)
+    if obj_tools.is_ufs_url(url):
+        protocol, content = obj_tools.parse_url(url)
         if protocol in ["bar"]:
             return True
     return False
@@ -32,6 +32,9 @@ def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
     """
     Create object if url is not exist, otherwise use the existing one. So if an existing url is passed in
     the existing item will be updated instead of creating a new one.
+    :param url:
+    :param user:
+    :param ufs_obj_type:
     """
     # Tag object
     if obj_tools.is_web_url(url) or is_barcode(url):
@@ -84,7 +87,7 @@ def handle_append_tags_request(request):
 def remove_tag(request):
     data = retrieve_param(request)
     if ('ufs_url' in data) and ('tag' in data):
-        #print data['ufs_url']
+        # print data['ufs_url']
         obj_list = UfsObj.objects.filter(ufs_url=data['ufs_url'])
         if 0 != obj_list.count():
             tags = obj_list[0].tags
@@ -114,6 +117,3 @@ def add_tag(request):
         return HttpResponse('{"result": "added tag: %s to %s done"}' % (data["tag"], data["ufs_url"]),
                             mimetype="application/json")
     return HttpResponse('{"result": "not enough params"}', mimetype="application/json")
-
-
-

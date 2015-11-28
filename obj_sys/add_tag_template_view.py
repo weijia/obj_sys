@@ -41,7 +41,7 @@ class AddTagTemplateView(TemplateView):
                 self.stored_url.extend(all_urls)
                 for submitted_url in self.stored_url:
                     if not (submitted_url in self.listed_urls):
-                        #print query_param_list, urls
+                        # print query_param_list, urls
                         self.listed_urls.append(submitted_url)
             if query_param_list[0] == 'selected_url':
                 self.is_submitting_tagging = True
@@ -49,7 +49,7 @@ class AddTagTemplateView(TemplateView):
                     self.tag_url(submitted_url)
         self.request.session["saved_urls"] = self.listed_urls
         urls_with_tags = self.get_urls_with_tags()
-        return  urls_with_tags
+        return urls_with_tags
 
     def get_context_data(self, **kwargs):
         context = super(AddTagTemplateView, self).get_context_data(**kwargs)
@@ -61,8 +61,8 @@ class AddTagTemplateView(TemplateView):
             c["new_url_input"] = True
         c.update(csrf(self.request))
         context.update(c)
-        #log = logging.getLogger(__name__)
-        #log.error(context)
+        # log = logging.getLogger(__name__)
+        # log.error(context)
         return context
 
     def retrieve_encoding(self, data):
@@ -79,11 +79,11 @@ class AddTagTemplateView(TemplateView):
         else:
             full_path = obj_tools.get_full_path_for_local_os(url_for_ufs_obj)
             obj_qs = UfsObj.objects.filter(full_path=full_path)
-            #print obj_qs.count()
+            # print obj_qs.count()
         if 0 != obj_qs.count():
-            #print 'object exists'
+            # print 'object exists'
             for obj in obj_qs:
-                #print obj.tags
+                # print obj.tags
                 tags.extend(obj.tags)
         return tags
 
@@ -92,6 +92,7 @@ class AddTagTemplateView(TemplateView):
             def __init__(self, url, tags):
                 self.url = url
                 self.tags = tags
+
         urls_with_tags = []
         for listed_url in self.listed_urls:
             tags_for_existing_url = self.get_url_tags(listed_url)
@@ -102,4 +103,3 @@ class AddTagTemplateView(TemplateView):
         if not (url_to_tag in self.tagged_urls):
             self.tagged_urls.append(url_to_tag)
             append_tags_and_description_to_url(self.request.user, url_to_tag, self.tags, "manually added item")
-
