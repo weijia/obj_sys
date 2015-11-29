@@ -18,11 +18,15 @@ class Description(models.Model):
 
 
 class UfsObj(MPTTModel):
+    INDEXING_FILE = 1004
+    UFS_OBJ_TYPE = 1
     UFS_OBJ_TYPE_CHOICES = (
-        (1, 'UFS OBJ TYPE (file or URL)'),
+        (UFS_OBJ_TYPE, 'UFS OBJ TYPE (file or URL)'),
         (2, 'STORAGE_ITEM'),
         (3, 'CLIPBOARD'),
-        (4, 'TBD'),
+        (4, 'INDEXED_FILE'),
+        (1000, 'TBD'),
+        (INDEXING_FILE, 'INDEXING_FILE'),
     )
     UFS_SOURCE_CHOICES = (
         (1, 'WEB_POST'),
@@ -58,6 +62,8 @@ class UfsObj(MPTTModel):
     source_ip = models.CharField(max_length=60, null=True, blank=True,
                                  help_text="IP address from which the object was posted")
     position = GeopositionField(default=None, null=True, blank=True)
+    added_from_app = models.CharField(max_length=30, null=True, blank=True,
+                                      help_text="the app name who added this entry")
 
     def get_one_description(self):
         try:
@@ -90,4 +96,3 @@ class UfsObj(MPTTModel):
             except ImportError:
                 pass
         return 'unknown'
-

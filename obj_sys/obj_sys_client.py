@@ -12,7 +12,7 @@ class ObjSysClint(object):
         else:
             return "%s" % self.server_name
 
-    def get_manual_tagging_url(self, urls_str):
+    def get_manual_tagging_url_for_qt_urls(self, urls_str):
         """
         Get URL for manually tagging object identified with URL
         :param urls_str: urls connected with "&". For example: "http://google.com&http://g.cn"
