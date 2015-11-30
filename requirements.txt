@@ -1,3 +1,5 @@
 wheel==0.23.0
 django-geoposition
 django-mptt
+django-pagination
+django-tagging-ng
