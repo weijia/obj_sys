@@ -26,8 +26,10 @@ def invalid_obj_and_rm_tags(obj):
     json_description = obj.description_json
     if not (json_description is None):
         description_dict = json.loads(json_description)
-        description_dict["tags_before_delete"] = obj.tags
-        obj.description_json = description_dict.dumps(description_dict)
+        tags = obj.tags
+        if len(tags) > 0:
+            description_dict["tags_before_delete"] = obj.tags
+        obj.description_json = json.dumps(description_dict)
     obj.tags = ""
     obj.valid = False
     obj.save()
