@@ -65,6 +65,9 @@ class UfsObj(MPTTModel):
     added_from_app = models.CharField(max_length=30, null=True, blank=True,
                                       help_text="the app name who added this entry")
 
+    def get_absolute_url(self):
+        return "/admin/obj_sys/ufsobj/%d/" % self.pk
+
     def get_one_description(self):
         try:
             return self.descriptions.all().order_by("-pk")[0].content
