@@ -18,21 +18,39 @@ class Description(models.Model):
 
 
 class UfsObj(MPTTModel):
-    INDEXING_FILE = 1004
-    UFS_OBJ_TYPE = 1
+    """
+    To identify which object is posted as favorite from web, ufs_obj_type=TYPE_UFS_OBJ and source=SOURCE_WEB_POST
+    Clipboard item: source=SOURCE_CLIPBOARD and ufs_obj_type=TYPE_CLIPBOARD
+    Item will be displayed in the resource bookmark: ufs_obj_type=TYPE_UFS_OBJ
+    ufs_obj_type shall only be used to identify if the item will be shown in the resource bookmark. It will not
+    really represent the obj's type as its name indicates. Use tag instead of the flag
+    """
+    # INDEXING_FILE = 1004
+    # INDEXED_FILE = 1005
+    TYPE_UFS_OBJ = 1
+    TYPE_CLIPBOARD = 3
+
+    SOURCE_INDEXER = 1004
+    SOURCE_WEB_POST = 1
+    SOURCE_CLIPBOARD = 3
+
     UFS_OBJ_TYPE_CHOICES = (
-        (UFS_OBJ_TYPE, 'UFS OBJ TYPE (file or URL)'),
+        (TYPE_UFS_OBJ, 'UFS OBJ TYPE (file or URL)'),
         (2, 'STORAGE_ITEM'),
-        (3, 'CLIPBOARD'),
-        (4, 'INDEXED_FILE'),
-        (1000, 'TBD'),
-        (INDEXING_FILE, 'INDEXING_FILE'),
+        (TYPE_CLIPBOARD, 'CLIPBOARD'),
+        # (4, 'INDEXED_FILE'),
+        (1000, 'CUSTOMIZABLE_START'),
+        # Added the file to database first, then create detailed info for it, so we can check how many files are
+        # still under processing
+        # (INDEXING_FILE, 'INDEXING_FILE'),
+        # (INDEXED_FILE, 'INDEXING_FILE'),
     )
     UFS_SOURCE_CHOICES = (
-        (1, 'WEB_POST'),
+        (SOURCE_WEB_POST, 'WEB_POST'),
         (2, 'STORAGE_MANAGER'),
-        (3, 'CLIPBOARD'),
-        (4, 'TBD'),
+        (SOURCE_CLIPBOARD, 'CLIPBOARD'),
+        (1000, 'CUSTOMIZABLE_START'),
+        (SOURCE_INDEXER, 'INDEXER'),
     )
     full_path = models.TextField(null=True, blank=True)
     ufs_url = models.TextField(help_text='start with ufs:// or uuid:// etc.')
