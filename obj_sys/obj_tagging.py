@@ -28,21 +28,21 @@ def is_barcode(url):
     return False
 
 
-def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
+def get_or_create_objects_from_remote_or_local_url(web_url_or_qt_file_url, user, ufs_obj_type=UfsObj.TYPE_UFS_OBJ):
     """
     Create object if url is not exist, otherwise use the existing one. So if an existing url is passed in
     the existing item will be updated instead of creating a new one.
-    :param url:
+    :param web_url_or_qt_file_url:
     :param user:
     :param ufs_obj_type:
     """
     # Tag object
-    if obj_tools.is_web_url(url) or is_barcode(url):
+    if obj_tools.is_web_url(web_url_or_qt_file_url) or is_barcode(web_url_or_qt_file_url):
         full_path = None
-        obj_qs = UfsObj.objects.filter(ufs_url=url, user=user, valid=True)
-        ufs_url = url
+        obj_qs = UfsObj.objects.filter(ufs_url=web_url_or_qt_file_url, user=user, valid=True)
+        ufs_url = web_url_or_qt_file_url
     else:
-        full_path = obj_tools.get_full_path_for_local_os(url)
+        full_path = obj_tools.get_full_path_for_local_os(web_url_or_qt_file_url)
         obj_qs = UfsObj.objects.filter(full_path=full_path)
         ufs_url = obj_tools.get_ufs_url_for_local_path(full_path)
     if 0 == obj_qs.count():
@@ -53,13 +53,13 @@ def get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type=1):
     return obj_qs
 
 
-def append_tags_and_description_to_url(user, url, tags, description, ufs_obj_type=1):
-    obj_qs = get_or_create_objects_from_remote_or_local_url(url, user, ufs_obj_type)
+def append_tags_and_description_to_url(user, web_url_or_qt_file_url, str_of_tags, description, ufs_obj_type=UfsObj.TYPE_UFS_OBJ):
+    obj_qs = get_or_create_objects_from_remote_or_local_url(web_url_or_qt_file_url, user, ufs_obj_type)
     description_obj, created = Description.objects.get_or_create(content=description)
     for obj in obj_qs:
         # obj.tags = tags
         # TODO: update_tags seems remove existing tag, need to check
-        Tag.objects.update_tags(obj, tags, tag_app='user:' + user.username)
+        Tag.objects.update_tags(obj, str_of_tags, tag_app='user:' + user.username)
         obj.descriptions.add(description_obj)
         obj.save()
 

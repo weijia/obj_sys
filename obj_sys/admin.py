@@ -1,10 +1,10 @@
 from djangoautoconf.auto_conf_admin_tools.admin_register import AdminRegister
-from djangoautoconf.auto_conf_admin_utils import register_all_in_module
-import models_obj_rel
+# from djangoautoconf.auto_conf_admin_utils import register_all_in_module
+import models
 from models_mptt import UfsObjInTree
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-from django.conf import settings
+# from django.conf import settings
 #
 # """
 # if "guardian" in settings.INSTALLED_APPS:
@@ -26,8 +26,6 @@ from django.conf import settings
 #
 #
 # register_all_in_module(models_obj_rel, admin_class_list=[UfsObjAdmin])
-r = AdminRegister()
-r.register_all_models(models_obj_rel)
 
 
 # from reversion.helpers import patch_admin
@@ -36,3 +34,6 @@ r.register_all_models(models_obj_rel)
 
 
 admin.site.register(UfsObjInTree, MPTTModelAdmin)
+
+r = AdminRegister()
+r.register_all_models(models)

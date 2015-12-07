@@ -36,9 +36,9 @@ def invalid_obj_and_rm_tags(obj):
 
 
 def get_obj_from_data(data):
-    if "pk" in data:
+    if ("pk" in data) and (data["pk"] != ""):
         return UfsObj.objects.filter(pk=data["pk"])
-    if "ufs_url" in data:
+    if ("ufs_url" in data) and (data["ufs_url"] != ""):
         return UfsObj.objects.filter(ufs_url=data["ufs_url"])
 
 
@@ -48,7 +48,14 @@ def handle_operation_request(request):
     if "cmd" in data:
         operator = ObjListOperator(get_obj_from_data(data))
         getattr(operator, data["cmd"])()
-        json_result_str = '{"result": "removed: %s"}' % (data["ufs_url"])
+        res = {}
+        res.update({"result": "removed"})
+        if "ufs_url" in data:
+            res.update({"result": "removed %s" % data["ufs_url"]})
+        if "pk" in data:
+            res.update({"result": "removed by pk: %s" % data["pk"]})
+        # json_result_str = '{"result": "removed: %s"}' % (data["ufs_url"])
+        json_result_str = json.dumps(res)
     return HttpResponse(json_result_str, mimetype="application/json")
 
 
