@@ -33,6 +33,7 @@ class UfsObj(MPTTModel):
     SOURCE_INDEXER = 1004
     SOURCE_WEB_POST = 1
     SOURCE_CLIPBOARD = 3
+    SOURCE_CLIPBOARD_FROM_EVERNOTE = 4
 
     UFS_OBJ_TYPE_CHOICES = (
         (TYPE_UFS_OBJ, 'UFS OBJ TYPE (file or URL)'),
@@ -51,6 +52,7 @@ class UfsObj(MPTTModel):
         (SOURCE_CLIPBOARD, 'CLIPBOARD'),
         (1000, 'CUSTOMIZABLE_START'),
         (SOURCE_INDEXER, 'INDEXER'),
+        (SOURCE_CLIPBOARD_FROM_EVERNOTE, 'SOURCE_CLIPBOARD_FROM_EVERNOTE'),
     )
     full_path = models.TextField(null=True, blank=True)
     ufs_url = models.TextField(help_text='start with ufs:// or uuid:// etc.')
