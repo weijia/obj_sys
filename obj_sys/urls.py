@@ -26,7 +26,7 @@ objs_views = ModelView(UfsObj)
 
 urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
-                       url(r'^ufs_obj_tree_view/$', login_required(
+                       url(r'^$', login_required(
                            ItemTreeView.as_view(item_class=UfsObj, template_name='obj_sys/mptt_item_tree.html'))),
                        url(r'^tagging_local/$', login_required(AddTagTemplateViewLocal.as_view())),
                        url(r'^tagging/(?P<news_item_pk>\d+)/$', login_required(AddTagTemplateView.as_view()),

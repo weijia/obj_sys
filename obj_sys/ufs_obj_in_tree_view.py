@@ -6,7 +6,7 @@ from models_mptt import UfsObjInTree
 
 class ItemTreeView(TemplateView):
     item_class = UfsObjInTree
-    default_level = 3
+    default_level = 2
 
     def get_context_data(self, **kwargs):
         # context = super(AddTagTemplateView, self).get_context_data(**kwargs)
