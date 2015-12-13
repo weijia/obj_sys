@@ -15,7 +15,7 @@ class ItemTreeView(TemplateView):
         if "root" in data:
             root = self.item_class.objects.filter(pk=data["root"])
             tree_items = self.item_class.objects.get_queryset_descendants(root).filter(
-                level__lt=root[0].level+self.default_level)
+                level__lt=root[0].level+self.default_level+1)
         else:
             tree_items = self.item_class.objects.filter(level__lt=self.default_level)
 
