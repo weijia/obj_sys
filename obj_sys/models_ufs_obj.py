@@ -95,7 +95,12 @@ class UfsObj(MPTTModel):
             return ""
 
     def __unicode__(self):
-        return unicode(self.ufs_url + " - " + self.get_one_description() + '---------> uuid:' + self.uuid)
+        return u"%s - %s - %s ---> %s" % (unicode(self.ufs_url.split("/")[-1]),
+                                          unicode(self.full_path),
+                                          self.get_one_description(), self.uuid)
+
+    def set_removed(self):
+        self.is_valid = False
 
     def save(self, *args, **kwargs):
         if not (self.full_path is None):
