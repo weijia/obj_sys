@@ -11,6 +11,8 @@ import django.utils.timezone as timezone
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from django_local_apps.ufs_local_obj import UfsUrlObj, UfsLocalObjSaver
 from tagging.models import Tag
 from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import RequestWithAuth
@@ -38,30 +40,24 @@ def get_or_create_objects_from_remote_or_local_url(web_url_or_qt_file_url, user,
     """
     # Tag object
     if obj_tools.is_web_url(web_url_or_qt_file_url) or is_barcode(web_url_or_qt_file_url):
-        full_path = None
-        obj_qs = UfsObj.objects.filter(ufs_url=web_url_or_qt_file_url, user=user, valid=True)
-        ufs_url = web_url_or_qt_file_url
+        obj_saver = UfsUrlObj(web_url_or_qt_file_url, user)
     else:
-        full_path = obj_tools.get_full_path_for_local_os(web_url_or_qt_file_url)
-        obj_qs = UfsObj.objects.filter(full_path=full_path)
-        ufs_url = obj_tools.get_ufs_url_for_local_path(full_path)
-    if 0 == obj_qs.count():
-        obj = UfsObj(ufs_url=ufs_url, uuid=unicode(uuid.uuid4()), timestamp=timezone.now(),
-                     user=user, full_path=full_path, ufs_obj_type=ufs_obj_type)
-        obj.save()
-        obj_qs = [obj]
-    return obj_qs
+        obj_saver = UfsLocalObjSaver(user)
+        obj_saver.init_with_qt_url(web_url_or_qt_file_url)
+    return obj_saver.filter_or_create()
 
 
 def append_tags_and_description_to_url(user, web_url_or_qt_file_url, str_of_tags, description, ufs_obj_type=UfsObj.TYPE_UFS_OBJ):
-    obj_qs = get_or_create_objects_from_remote_or_local_url(web_url_or_qt_file_url, user, ufs_obj_type)
+    if obj_tools.is_web_url(web_url_or_qt_file_url) or is_barcode(web_url_or_qt_file_url):
+        obj_saver = UfsUrlObj(web_url_or_qt_file_url, user)
+    else:
+        obj_saver = UfsLocalObjSaver(user)
+        obj_saver.init_with_qt_url(web_url_or_qt_file_url)
+    obj_saver.get_or_create()
     description_obj, created = Description.objects.get_or_create(content=description)
-    for obj in obj_qs:
-        # obj.tags = tags
-        # TODO: update_tags seems remove existing tag, need to check
-        Tag.objects.update_tags(obj, str_of_tags, tag_app='user:' + user.username)
-        obj.descriptions.add(description_obj)
-        obj.save()
+    obj_saver.tag_app = 'user:' + user.username
+    obj_saver.append_tags(str_of_tags)
+    obj_saver.add_description(description_obj)
 
 
 @csrf_exempt

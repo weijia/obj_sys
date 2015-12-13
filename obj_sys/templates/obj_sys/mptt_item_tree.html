@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load mptt_tags %}
+{% block container %}
+<ul>
+    {% recursetree nodes %}
+        <li>
+            <a href="{{request.base_url}}?root={{node.pk}}">{{ node }}</a>
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+{% endblock %}

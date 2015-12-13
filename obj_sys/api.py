@@ -53,16 +53,17 @@ class UfsObjResource(ModelResource):
     # descriptions = fields.ToOneField(DescriptionResource, 'descriptions')
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
 
-    def get_ufs_objs_with_tags(self, tag):
+    def __get_ufs_objs_with_tags(self, tag):
         try:
             obj_tag = Tag.objects.get(name=tag)
             # When enumerating tagged items use descent timestamp, it means newest first
-            ufs_objects = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(valid=True)
+            ufs_objects = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(
+                valid=True)
         except:
             ufs_objects = UfsObj.objects.none()
         return ufs_objects
 
-    def is_new_tag_query(self, request, data):
+    def __is_new_tag_query(self, request, data):
         """
         There is a tag value in session and there is also a offset value in request, so it is a request to continue
         the last tag query.
@@ -76,7 +77,7 @@ class UfsObjResource(ModelResource):
         # return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
 
-        if self.is_new_tag_query(request, data):
+        if self.__is_new_tag_query(request, data):
             tag_str = data.get("tag", None)
         else:
             tag_str = request.session.get("tag", None)
@@ -85,13 +86,14 @@ class UfsObjResource(ModelResource):
             if "all" in data:
                 ufs_objects = super(UfsObjResource, self).get_object_list(request)
             else:
-                ufs_objects = super(UfsObjResource, self).get_object_list(request).filter(valid=True)
+                ufs_objects = super(UfsObjResource, self).get_object_list(request).filter(
+                    valid=True)
         else:
             request.session["tag"] = tag_str
-            ufs_objects = self.get_ufs_objs_with_tags(tag_str)
+            ufs_objects = self.__get_ufs_objs_with_tags(tag_str)
 
         if "type" in data:
-            ubs_objects = ufs_objects.filter(ufs_obj_type=int(data["type"]))
+            ufs_objects = ufs_objects.filter(ufs_obj_type=int(data["type"]))
 
         if "consumer_key" in data:
             ufs_objects = ufs_objects.filter(user=verify_access_token(data["consumer_key"]).user)

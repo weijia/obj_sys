@@ -56,7 +56,7 @@ class AddTagTemplateViewLocal(AddTagTemplateView):
 
         self.request.session["saved_urls"] = self.listed_urls
         log = logging.getLogger(__name__)
-        log.error(self.listed_urls)
+        # log.error(self.listed_urls)
         urls_with_tags = self.get_urls_with_tags()
         log.error(urls_with_tags)
         c = {"user": self.request.user, "close_flag": close_flag, "urls_with_tags": urls_with_tags,

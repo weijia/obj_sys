@@ -28,7 +28,10 @@ def invalid_obj_and_rm_tags(obj):
         description_dict = json.loads(json_description)
         tags = obj.tags
         if len(tags) > 0:
-            description_dict["tags_before_delete"] = obj.tags
+            tag_names = []
+            for tag in obj.tags:
+                tag_names.append(tag.name)
+            description_dict["tags_before_delete"] = ",".join(tag_names)
         obj.description_json = json.dumps(description_dict)
     obj.tags = ""
     obj.valid = False

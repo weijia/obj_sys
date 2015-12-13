@@ -10,7 +10,7 @@ from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
 from api_ufs_obj_in_tree import UfsObjInTreeResource
-from ufs_obj_in_tree_view import UfsObjInTreeView
+from ufs_obj_in_tree_view import ItemTreeView
 from rss import LatestEntriesFeed
 
 ufs_obj_resource = UfsObjResource()
@@ -26,6 +26,8 @@ objs_views = ModelView(UfsObj)
 
 urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
+                       url(r'^ufs_obj_tree_view/$', login_required(
+                           ItemTreeView.as_view(item_class=UfsObj, template_name='obj_sys/mptt_item_tree.html'))),
                        url(r'^tagging_local/$', login_required(AddTagTemplateViewLocal.as_view())),
                        url(r'^tagging/(?P<news_item_pk>\d+)/$', login_required(AddTagTemplateView.as_view()),
                            name="news-item"),
@@ -48,8 +50,8 @@ urlpatterns = patterns('',
                            template_name='obj_sys/pane.html')),
                        (r'^api/ufsobj/', include(ufs_obj_resource.urls)),
                        (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
-                       (r'^tree_raw/', UfsObjInTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
-                       (r'^tree/', UfsObjInTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
+                       (r'^tree_raw/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
+                       (r'^tree/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
                        # (r'^api/tag/', include(tag_resource.urls)),
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
