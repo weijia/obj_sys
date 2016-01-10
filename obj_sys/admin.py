@@ -1,7 +1,9 @@
 from djangoautoconf.auto_conf_admin_tools.admin_register import AdminRegister
 # from djangoautoconf.auto_conf_admin_utils import register_all_in_module
 import models
+from djangoautoconf.auto_conf_admin_tools.filter_horizontal_feature import FilterHorizontalFeature
 from djangoautoconf.auto_conf_admin_tools.foreign_key_auto_complete import ForeignKeyAutoCompleteFeature
+from djangoautoconf.auto_conf_admin_tools.reversion_feature import ReversionFeature
 from models_mptt import UfsObjInTree
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
@@ -32,7 +34,7 @@ from mptt.admin import MPTTModelAdmin
 # from reversion.helpers import patch_admin
 #
 # patch_admin(models_obj_rel.UfsObj)
-from obj_sys.models_ufs_obj import UfsObj
+from obj_sys.models_ufs_obj import UfsObj, Description
 
 admin.site.register(UfsObjInTree, MPTTModelAdmin)
 # admin.site.register(UfsObj, MPTTModelAdmin)
@@ -41,4 +43,9 @@ r = AdminRegister()
 f = ForeignKeyAutoCompleteFeature()
 f.set_search_field_by_model({UfsObj: ("uuid", "ufs_url", "full_path")})
 r.add_feature(f)
+r.add_feature(ReversionFeature())
+r.add_feature(FilterHorizontalFeature(("relations", "descriptions")))
+r.register(UfsObj)
+r = AdminRegister()
+r.add_feature(ReversionFeature())
 r.register_all_models(models)
