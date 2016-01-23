@@ -20,10 +20,12 @@
             <p>{{ description.content }}</p>
             {% endfor %}
         </h4>
+        {% block item_actions %}
         <ul class="edit_links">
             <li><a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}">Delete</a></li>
             <li class="date_time">{{ bookmark.timestamp|default_if_none:"" }}</li>
         </ul>
+        {% endblock %}
         <ul class="tags">
             {% for tag in bookmark.tags %}
             <li><a href="">{{ tag.name }}</a></li>

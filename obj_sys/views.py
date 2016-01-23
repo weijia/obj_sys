@@ -67,7 +67,10 @@ def do_operation(request):
     if ("cmd" in data) and ("pk" in data):
         operator = ObjOperator(int(data["pk"]))
         getattr(operator, data["cmd"])()
-    return HttpResponseRedirect("/obj_sys/homepage/")
+    next_url = "/obj_sys/homepage/"
+    if "next_url" in data:
+        next_url = data["next_url"]
+    return HttpResponseRedirect(next_url)
 
 
 @login_required
