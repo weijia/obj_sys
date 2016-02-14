@@ -3,8 +3,8 @@ from models_ufs_obj import UfsObj
 
 
 class ObjRelation(models.Model):
-    from_obj = models.ForeignKey(UfsObj, null=True, blank=True, related_name="from")
-    to_obj = models.ForeignKey(UfsObj, null=True, blank=True, related_name="to")
+    from_obj = models.ForeignKey(UfsObj, null=True, blank=True, related_name="from_obj")
+    to_obj = models.ForeignKey(UfsObj, null=True, blank=True, related_name="to_obj")
     relation = models.CharField(max_length=60, null=True, blank=True,
                                 help_text="relation text")
     valid = models.BooleanField(default=True, help_text="is this field valid")
