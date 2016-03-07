@@ -11,6 +11,7 @@ class TreeView(TemplateView):
     def __init__(self, **kwargs):
         super(TreeView, self).__init__(**kwargs)
         self.tree_items = None
+        self.root_pk = -1
 
     def get_context_data(self, **kwargs):
         # context = super(AddTagTemplateView, self).get_context_data(**kwargs)
@@ -30,8 +31,8 @@ class TreeView(TemplateView):
     def init_tree_items(self):
         data = retrieve_param(self.request)
         if "root" in data:
-            root_pk = data["root"]
-            self.tree_items = self.get_children(root_pk)
+            self.root_pk = data["root"]
+            self.tree_items = self.get_children(self.root_pk)
         else:
             self.tree_items = self.item_class.objects.filter(level__lt=self.default_level)
 
