@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from django_local_apps.ufs_local_obj import UfsUrlObj, UfsLocalObjSaver
+from ufs_local_obj import UfsUrlObj, UfsLocalObjSaver
 from tagging.models import Tag
 from djangoautoconf.django_utils import retrieve_param
 from djangoautoconf.req_with_auth import RequestWithAuth
