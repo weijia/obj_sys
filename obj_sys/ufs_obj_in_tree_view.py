@@ -1,11 +1,11 @@
 from django.core.context_processors import csrf
 from django.views.generic import TemplateView
 from djangoautoconf.django_utils import retrieve_param
-from models_mptt import UfsObjInTree
+from obj_sys.models_ufs_obj import UfsObj
 
 
 class TreeView(TemplateView):
-    item_class = UfsObjInTree
+    item_class = UfsObj
     default_level = 2
 
     def __init__(self, **kwargs):

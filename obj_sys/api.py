@@ -50,10 +50,9 @@ class UserResource(ModelResource):
 # noinspection PyMethodMayBeStatic
 class UfsObjResource(ModelResource):
     # json_indent = 2
-    # descriptions = fields.ToOneField(DescriptionResource, 'descriptions')
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
 
-    def __get_ufs_objs_with_tags(self, tag):
+    def __get_ufs_objects_with_tags(self, tag):
         try:
             obj_tag = Tag.objects.get(name=tag)
             # When enumerating tagged items use descent timestamp, it means newest first
@@ -90,7 +89,7 @@ class UfsObjResource(ModelResource):
                     valid=True)
         else:
             request.session["tag"] = tag_str
-            ufs_objects = self.__get_ufs_objs_with_tags(tag_str)
+            ufs_objects = self.__get_ufs_objects_with_tags(tag_str)
 
         if "type" in data:
             ufs_objects = ufs_objects.filter(ufs_obj_type=int(data["type"]))
@@ -136,6 +135,7 @@ class UfsObjResource(ModelResource):
             "ufs_url": ('contains', 'exact'),
             "full_path": ('contains', 'iendswith'),
             "descriptions": ALL_WITH_RELATIONS,
+            # "parent": ALL_WITH_RELATIONS,
             "ufs_obj_type": ALL,
         }
         serializer = DateSerializerWithTimezone()
