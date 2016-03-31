@@ -17,11 +17,10 @@ ufs_obj_resource = UfsObjResource()
 ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # tag_resource = TagResource()
 
-objs_views = ModelView(UfsObj)
+obj_views = ModelView(UfsObj)
 
 # resource_views_ajax = ModelView(BookableResource, base_template="modal.html")
 # resource_booking_req_views_ajax = ModelView(BookingRequest, base_template="modal.html")
-
 
 
 urlpatterns = patterns('',
@@ -59,5 +58,5 @@ urlpatterns = patterns('',
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
                        # url(r'^homepage_all/$', 'obj_sys.views.homepage'),
-                       #  url(r'^ufs/', include(objs_views.urls)),
+                       #  url(r'^ufs/', include(obj_views.urls)),
                        )

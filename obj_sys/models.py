@@ -1,6 +1,7 @@
 # Create your models here.
-from models_mptt import *
 from models_obj_rel import *
+from models_ufs_obj import *
+
 
 
 try:

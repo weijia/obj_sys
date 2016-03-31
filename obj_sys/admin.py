@@ -4,7 +4,6 @@ import models
 from djangoautoconf.auto_conf_admin_tools.filter_horizontal_feature import FilterHorizontalFeature
 from djangoautoconf.auto_conf_admin_tools.foreign_key_auto_complete import ForeignKeyAutoCompleteFeature
 from djangoautoconf.auto_conf_admin_tools.reversion_feature import ReversionFeature
-from models_mptt import UfsObjInTree
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 # from django.conf import settings
@@ -36,8 +35,6 @@ from mptt.admin import MPTTModelAdmin
 # patch_admin(models_obj_rel.UfsObj)
 from obj_sys.models_ufs_obj import UfsObj, Description
 
-admin.site.register(UfsObjInTree, MPTTModelAdmin)
-# admin.site.register(UfsObj, MPTTModelAdmin)
 
 r = AdminRegister()
 f = ForeignKeyAutoCompleteFeature()
