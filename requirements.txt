@@ -1,6 +1,9 @@
-wheel==0.23.0
+# wheel==0.23.0
 django-geoposition
 django-mptt
 django-pagination
 # django-tagging-ng, need a modified tagging version
 towel
+tzlocal
+django-jquery-ui
+django-bootstrap-form

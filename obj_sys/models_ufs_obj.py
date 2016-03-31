@@ -72,9 +72,9 @@ class UfsObj(MPTTModel):
     user = models.ForeignKey(User, null=True, blank=True)
     description_json = models.TextField(null=True, blank=True, help_text="JSON description for this object")
     valid = models.BooleanField(default=True, help_text="is this field valid")
-    relations = models.ManyToManyField("self", related_name='related_objs', null=True, blank=True,
+    relations = models.ManyToManyField("self", related_name='related_objs',
                                        help_text="Related other information objects")
-    descriptions = models.ManyToManyField(Description, related_name='descriptions', null=True, blank=True,
+    descriptions = models.ManyToManyField(Description, related_name='descriptions',
                                           help_text="Descriptions for this object")
     ufs_obj_type = models.IntegerField(choices=UFS_OBJ_TYPE_CHOICES, default=1)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
