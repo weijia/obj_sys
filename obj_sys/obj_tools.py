@@ -20,7 +20,8 @@ log = logging.getLogger(__name__)
 def is_web_url(url):
     # log.error(url)
     if is_ufs_url(url):
-        protocol, content = parse_url(url)
+        parse_res = parse_url(url)
+        protocol = parse_res[0]
         if protocol in ["https", "http", "ftp"]:
             return True
     return False
