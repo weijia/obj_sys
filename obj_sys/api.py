@@ -68,7 +68,10 @@ class UfsObjResource(ModelResource):
             ufs_objects = ufs_objects.filter(user=verify_access_token(data["consumer_key"]).user)
 
         if "parent_url" in data:
-            ufs_objects = ufs_objects.filter(parent__ufs_url=data["parent_url"])
+            if data["parent_url"] == "bar://root":
+                ufs_objects = ufs_objects.filter(parent=None)
+            else:
+                ufs_objects = ufs_objects.filter(parent__ufs_url=data["parent_url"])
 
         return ufs_objects
 
