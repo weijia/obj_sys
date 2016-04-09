@@ -24,7 +24,7 @@ from view_utils import get_ufs_obj_from_ufs_url
 
 def is_barcode(url):
     if obj_tools.is_ufs_url(url):
-        protocol, content = obj_tools.parse_url(url)
+        protocol = obj_tools.get_protocol(url)
         if protocol in ["bar"]:
             return True
     return False

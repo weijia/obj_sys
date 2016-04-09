@@ -20,11 +20,16 @@ log = logging.getLogger(__name__)
 def is_web_url(url):
     # log.error(url)
     if is_ufs_url(url):
-        parse_res = parse_url(url)
-        protocol = parse_res[0]
+        protocol = get_protocol(url)
         if protocol in ["https", "http", "ftp"]:
             return True
     return False
+
+
+def get_protocol(url):
+    parse_res = parse_url(url)
+    protocol = parse_res[0]
+    return protocol
 
 
 def get_formatted_full_path(full_path):
