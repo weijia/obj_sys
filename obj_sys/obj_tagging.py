@@ -68,7 +68,7 @@ def handle_append_tags_request(request):
     if not req_with_auth.is_authenticated():
         res = req_with_auth.get_error_dict()
         res["result"] = "error"
-        return JsonResponse(json.dumps(res))
+        return JsonResponse(res)
 
     tags = req_with_auth.data.get("tags", None)
     description = req_with_auth.data.get("description", None)
@@ -79,7 +79,7 @@ def handle_append_tags_request(request):
             for url in query_param_list[1]:
                 append_tags_and_description_to_url(request.user, url, tags, description, ufs_obj_type)
                 added_cnt += 1
-    return JsonResponse('{"result": "OK", "added": %d}' % added_cnt)
+    return JsonResponse({"result": "OK", "added": "%d" % added_cnt})
 
 
 def remove_tag(request):
@@ -95,8 +95,8 @@ def remove_tag(request):
                     tag_name.append(tag.name)
             obj_list[0].tags = ','.join(tag_name)
             print tag_name
-            return JsonResponse('{"result": "remove tag done"}')
-    return JsonResponse('{"result": "not enough params"}')
+            return JsonResponse({"result": "remove tag done"})
+    return JsonResponse({"result": "not enough params"})
 
 
 def get_tags(request):
@@ -114,4 +114,4 @@ def add_tag(request):
         Tag.objects.add_tag(obj, data["tag"], tag_app='user:' + request.user.username)
         return HttpResponse('{"result": "added tag: %s to %s done"}' % (data["tag"], data["ufs_url"]),
                             mimetype="application/json")
-    return JsonResponse('{"result": "not enough params"}')
+    return JsonResponse({"result": "not enough params"})
