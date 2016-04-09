@@ -52,44 +52,14 @@ class UfsObjResource(ModelResource):
     # json_indent = 2
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
 
-    def __get_ufs_objects_with_tags(self, tag):
-        try:
-            obj_tag = Tag.objects.get(name=tag)
-            # When enumerating tagged items use descent timestamp, it means newest first
-            ufs_objects = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(
-                valid=True)
-        except:
-            ufs_objects = UfsObj.objects.none()
-        return ufs_objects
-
-    def __is_new_tag_query(self, request, data):
-        """
-        There is a tag value in session and there is also a offset value in request, so it is a request to continue
-        the last tag query.
-        """
-        if ("tag" in request.session) and \
-                ("offset" in data):  # Do not have offset means it may be a new serial of object query
-            return True
-        return False
-
     def get_object_list(self, request):
         # return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
         data = retrieve_param(request)
 
-        if self.__is_new_tag_query(request, data):
-            tag_str = data.get("tag", None)
-        else:
-            tag_str = request.session.get("tag", None)
+        ufs_objects = self.get_initial_queryset(data, request)
 
-        if tag_str is None:
-            if "all" in data:
-                ufs_objects = super(UfsObjResource, self).get_object_list(request)
-            else:
-                ufs_objects = super(UfsObjResource, self).get_object_list(request).filter(
-                    valid=True)
-        else:
-            request.session["tag"] = tag_str
-            ufs_objects = self.__get_ufs_objects_with_tags(tag_str)
+        if not ("all" in data):
+            ufs_objects = ufs_objects.filter(valid=True)
 
         if "type" in data:
             ufs_objects = ufs_objects.filter(ufs_obj_type=int(data["type"]))
@@ -97,7 +67,26 @@ class UfsObjResource(ModelResource):
         if "consumer_key" in data:
             ufs_objects = ufs_objects.filter(user=verify_access_token(data["consumer_key"]).user)
 
+        if "parent_url" in data:
+            ufs_objects = ufs_objects.filter(parent__ufs_url=data["parent_url"])
+
         return ufs_objects
+
+    def get_initial_queryset(self, data, request):
+        tag_str = self.get_tag_str_for_whole_session(data, request)
+        if tag_str is None:
+            ufs_objects = super(UfsObjResource, self).get_object_list(request)
+        else:
+            request.session["tag"] = tag_str
+            ufs_objects = self.__get_ufs_objects_with_tags(tag_str)
+        return ufs_objects
+
+    def get_tag_str_for_whole_session(self, data, request):
+        if self.__is_new_tag_query(request, data):
+            tag_str = data.get("tag", None)
+        else:
+            tag_str = request.session.get("tag", None)
+        return tag_str
 
     def dehydrate(self, bundle):
         res = []
@@ -140,6 +129,25 @@ class UfsObjResource(ModelResource):
         }
         serializer = DateSerializerWithTimezone()
 
+    def __get_ufs_objects_with_tags(self, tag):
+        try:
+            obj_tag = Tag.objects.get(name=tag)
+            # When enumerating tagged items use descent timestamp, it means newest first
+            ufs_objects = TaggedItem.objects.get_by_model(UfsObj, obj_tag).order_by('-timestamp').filter(
+                valid=True)
+        except:
+            ufs_objects = UfsObj.objects.none()
+        return ufs_objects
+
+    def __is_new_tag_query(self, request, data):
+        """
+        There is a tag value in session and there is also a offset value in request, so it is a request to continue
+        the last tag query.
+        """
+        if ("tag" in request.session) and \
+                ("offset" in data):  # Do not have offset means it may be a new serial of object query
+            return True
+        return False
 
 '''
 class TagResource(ModelResource):
