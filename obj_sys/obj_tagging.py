@@ -2,6 +2,8 @@ import json
 import logging
 import threading
 import uuid
+
+from compat import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.core.context_processors import csrf
 from django.http import HttpResponse
@@ -66,7 +68,7 @@ def handle_append_tags_request(request):
     if not req_with_auth.is_authenticated():
         res = req_with_auth.get_error_dict()
         res["result"] = "error"
-        return HttpResponse(json.dumps(res), mimetype="application/json")
+        return JsonResponse(json.dumps(res))
 
     tags = req_with_auth.data.get("tags", None)
     description = req_with_auth.data.get("description", None)
@@ -77,7 +79,7 @@ def handle_append_tags_request(request):
             for url in query_param_list[1]:
                 append_tags_and_description_to_url(request.user, url, tags, description, ufs_obj_type)
                 added_cnt += 1
-    return HttpResponse('{"result": "OK", "added": %d}' % added_cnt, mimetype="application/json")
+    return JsonResponse('{"result": "OK", "added": %d}' % added_cnt)
 
 
 def remove_tag(request):
@@ -93,8 +95,8 @@ def remove_tag(request):
                     tag_name.append(tag.name)
             obj_list[0].tags = ','.join(tag_name)
             print tag_name
-            return HttpResponse('{"result": "remove tag done"}', mimetype="application/json")
-    return HttpResponse('{"result": "not enough params"}', mimetype="application/json")
+            return JsonResponse('{"result": "remove tag done"}')
+    return JsonResponse('{"result": "not enough params"}')
 
 
 def get_tags(request):
@@ -102,7 +104,7 @@ def get_tags(request):
     tag_name_list = []
     for i in tag_list:
         tag_name_list.append(i.name)
-    return HttpResponse(json.dumps(tag_name_list), mimetype="application/json")
+    return HttpResponse(json.dumps(tag_name_list))
 
 
 def add_tag(request):
@@ -112,4 +114,4 @@ def add_tag(request):
         Tag.objects.add_tag(obj, data["tag"], tag_app='user:' + request.user.username)
         return HttpResponse('{"result": "added tag: %s to %s done"}' % (data["tag"], data["ufs_url"]),
                             mimetype="application/json")
-    return HttpResponse('{"result": "not enough params"}', mimetype="application/json")
+    return JsonResponse('{"result": "not enough params"}')

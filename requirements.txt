@@ -6,3 +6,4 @@ django-pagination
 towel
 django-tastypie
 tzlocal
+django-compat
