@@ -3,3 +3,7 @@
 {% block item_box %}
     <span class="no-drag">{{ node.get_one_description }}-{{ node.ufs_url}}</span>
 {% endblock %}
+{% block container %}
+{{block.super}}
+$('#item-list').mpttAjax({restUrl: "/obj_sys/ufs_obj_rest/"});
+{% endblock %}
