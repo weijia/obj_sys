@@ -5,5 +5,7 @@
 {% endblock %}
 {% block container %}
 {{block.super}}
+<script>
 $('#item-list').mpttAjax({restUrl: "/obj_sys/ufs_obj_rest/"});
+</script>
 {% endblock %}
