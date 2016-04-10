@@ -1,0 +1,5 @@
+{% extends "mptt_tree_view/jquery_sortable_list.html" %}
+{% load mptt_tags %}
+{% block item_box %}
+    {{node.ufs_url}}
+{% endblock %}

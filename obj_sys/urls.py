@@ -60,7 +60,7 @@ urlpatterns = patterns('',
                        url(r'^mptt_tree_view/', login_required(ItemTreeView.as_view(
                            default_level=3,
                            ufs_obj_type=2,
-                           template_name='mptt_tree_view/jquery_sortable_list.html'))),
+                           template_name='obj_sys/jquery_sortable_list.html'))),
                        # (r'^api/tag/', include(tag_resource.urls)),
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
