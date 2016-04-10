@@ -58,7 +58,7 @@ urlpatterns = patterns('',
                        (r'^tree/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
                        url(r'^ufs_obj_rest/(?P<pk>[0-9]+)/$', get_detail_api_class(UfsObj).as_view()),
                        url(r'^mptt_tree_view/', login_required(ItemTreeView.as_view(
-                           default_level=3,
+                           default_level=2,
                            ufs_obj_type=2,
                            template_name='obj_sys/jquery_sortable_list.html'))),
                        # (r'^api/tag/', include(tag_resource.urls)),
