@@ -1,5 +1,5 @@
 {% extends "mptt_tree_view/jquery_sortable_list.html" %}
 {% load mptt_tags %}
 {% block item_box %}
-    {{ node.get_one_description }}-{{ node.ufs_url}}
+    <span class="no-drag">{{ node.get_one_description }}-{{ node.ufs_url}}</span>
 {% endblock %}
