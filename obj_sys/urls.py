@@ -3,6 +3,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
+
+from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
 from towel.modelview import ModelView
 from models import UfsObj
 from tagging.models import Tag
@@ -54,6 +56,11 @@ urlpatterns = patterns('',
                        (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
                        (r'^tree_raw/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
                        (r'^tree/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
+                       url(r'^ufs_obj_rest/(?P<pk>[0-9]+)/$', get_detail_api_class(UfsObj).as_view()),
+                       url(r'^mptt_tree_view/', login_required(ItemTreeView.as_view(
+                           default_level=3,
+                           ufs_obj_type=2,
+                           template_name='mptt_tree_view/jquery_sortable_list.html'))),
                        # (r'^api/tag/', include(tag_resource.urls)),
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
