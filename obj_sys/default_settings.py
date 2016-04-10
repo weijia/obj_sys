@@ -9,3 +9,7 @@ INSTALLED_APPS += (
     'obj_sys',
     # "obj_sys.apps.ObjSysConfig",
 )
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
