@@ -1,7 +1,7 @@
 {% extends "mptt_tree_view/jquery_sortable_list.html" %}
 {% load mptt_tags %}
 {% block item_box %}
-    <a href="{{ request.path }}/?root={{ node.pk }}">
+    <a href="{{ request.path }}?root={{ node.pk }}">
         <span class="no-drag">{{ node.get_one_description }}-{{ node.ufs_url}}</span>
     </a>
 {% endblock %}
