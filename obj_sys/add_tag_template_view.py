@@ -19,19 +19,31 @@ class AddTagTemplateView(TemplateView):
         self.stored_url = []
         self.listed_urls = []
         self.is_submitting_tagging = False
+        self.ufs_obj_type = UfsObj.TYPE_UFS_OBJ
 
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(AddTagTemplateView, self).get_context_data(**kwargs)
+        urls_with_tags = self.get_requesting_url_and_tag_pair()
+
+        c = {"user": self.request.user, "close_flag": self.is_submitting_tagging, "urls_with_tags": urls_with_tags,
+             "new_url_input": False}
+        if 0 == len(urls_with_tags):
+            c["new_url_input"] = True
+        c.update(csrf(self.request))
+        context.update(c)
+        # log = logging.getLogger(__name__)
+        # log.error(context)
+        return context
+
     def get_requesting_url_and_tag_pair(self):
         data = retrieve_param(self.request)
-        # Load saved submitted_url
-        if "saved_urls" in self.request.session:
-            self.stored_url = self.request.session["saved_urls"]
+        self.update_stored_url()
 
-        self.retrieve_encoding(data)
-        if "tags" in data:
-            self.tags = data["tags"]
+        self.process_parameters(data)
+
         decoder = SpecialEncoder()
         for query_param_list in data.lists():
             if query_param_list[0] == "url":
@@ -51,19 +63,23 @@ class AddTagTemplateView(TemplateView):
         urls_with_tags = self.get_urls_with_tags()
         return urls_with_tags
 
-    def get_context_data(self, **kwargs):
-        context = super(AddTagTemplateView, self).get_context_data(**kwargs)
-        urls_with_tags = self.get_requesting_url_and_tag_pair()
+    def process_parameters(self, data):
+        self.update_ufs_obj_type(data)
+        self.retrieve_encoding(data)
+        self.update_tags(data)
 
-        c = {"user": self.request.user, "close_flag": self.is_submitting_tagging, "urls_with_tags": urls_with_tags,
-             "new_url_input": False}
-        if 0 == len(urls_with_tags):
-            c["new_url_input"] = True
-        c.update(csrf(self.request))
-        context.update(c)
-        # log = logging.getLogger(__name__)
-        # log.error(context)
-        return context
+    def update_ufs_obj_type(self, data):
+        if "ufs_obj_type" in data:
+            self.ufs_obj_type = data["ufs_obj_type"]
+
+    def update_tags(self, data):
+        if "tags" in data:
+            self.tags = data["tags"]
+
+    def update_stored_url(self):
+        # Load saved submitted_url
+        if "saved_urls" in self.request.session:
+            self.stored_url = self.request.session["saved_urls"]
 
     def retrieve_encoding(self, data):
         if "encoding" in data:
@@ -99,7 +115,8 @@ class AddTagTemplateView(TemplateView):
             urls_with_tags.append(UrlTagPair(listed_url, tags_for_existing_url))
         return urls_with_tags
 
-    def tag_url(self, url_to_tag):
+    def tag_url(self, url_to_tag, ufs_obj_type):
         if not (url_to_tag in self.tagged_urls):
             self.tagged_urls.append(url_to_tag)
-            append_tags_and_description_to_url(self.request.user, url_to_tag, self.tags, "manually added item")
+            append_tags_and_description_to_url(self.request.user, url_to_tag,
+                                               self.tags, "manually added item", ufs_obj_type)
