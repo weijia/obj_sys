@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
-from towel.modelview import ModelView
+# from towel.modelview import ModelView
 from models import UfsObj
 from tagging.models import Tag
 from api import UfsObjResource
@@ -19,7 +19,7 @@ ufs_obj_resource = UfsObjResource()
 ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # tag_resource = TagResource()
 
-obj_views = ModelView(UfsObj)
+# obj_views = ModelView(UfsObj)
 
 # resource_views_ajax = ModelView(BookableResource, base_template="modal.html")
 # resource_booking_req_views_ajax = ModelView(BookingRequest, base_template="modal.html")
