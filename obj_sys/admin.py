@@ -47,6 +47,7 @@ from obj_sys.models_ufs_obj import UfsObj, Description
 
 r = AdminRegister()
 f = ForeignKeyAutoCompleteFeature()
+h = FilterHorizontalFeature(('descriptions', 'relations'))
 f.set_search_field_by_model({UfsObj: ("uuid", "ufs_url", "full_path")})
 r.add_feature(f)
 r.add_feature(ReversionFeature())
