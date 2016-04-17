@@ -1,7 +1,8 @@
-from django_mptt_admin.admin import DjangoMpttAdmin
+from ajax_select import make_ajax_form
 
+# from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
+from djangoautoconf.auto_conf_admin_tools.admin_attr_feature import AdminAttrFeature
 from djangoautoconf.auto_conf_admin_tools.admin_register import AdminRegister
-# from djangoautoconf.auto_conf_admin_utils import register_all_in_module
 import models
 from djangoautoconf.auto_conf_admin_tools.filter_horizontal_feature import FilterHorizontalFeature
 from djangoautoconf.auto_conf_admin_tools.foreign_key_auto_complete import ForeignKeyAutoCompleteFeature
@@ -45,11 +46,19 @@ from obj_sys.models_ufs_obj import UfsObj, Description
 #     default_feature_list = []
 # r = DjangoMpttAdminReg()
 
+
 r = AdminRegister()
-f = ForeignKeyAutoCompleteFeature()
-h = FilterHorizontalFeature(('descriptions', 'relations'))
-f.set_search_field_by_model({UfsObj: ("uuid", "ufs_url", "full_path")})
-r.add_feature(f)
+# f = ForeignKeyAutoCompleteFeature()
+# # h = FilterHorizontalFeature(('descriptions', 'relations'))
+# f.set_search_field_by_model({UfsObj: ("uuid", "ufs_url", "full_path")})
+# r.add_feature(f)
+# r.add_feature(h)
+h = AdminAttrFeature({"filter_horizontal": ("descriptions", )})
+a = AdminAttrFeature({"form": make_ajax_form(UfsObj, {"relations": "ufs_obj",
+                                                      "parent": "ufs_obj",
+                                                      "descriptions": "description"})})
+# a = AdminAttrFeature({"raw_id_fields": ("relations",)})
+r.add_feature(a)
 r.add_feature(h)
 r.add_feature(ReversionFeature())
 r.register(UfsObj)

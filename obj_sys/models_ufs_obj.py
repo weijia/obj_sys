@@ -126,3 +126,4 @@ class UfsObj(MPTTModel):
             except ImportError:
                 pass
         return 'unknown'
+

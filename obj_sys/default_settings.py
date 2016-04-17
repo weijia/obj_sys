@@ -5,6 +5,7 @@ INSTALLED_APPS += (
     'mptt',
     'django_mptt_admin',
     'tagging',
+    'ajax_select',
     'django_extensions',
     'geoposition',
     'obj_sys',
