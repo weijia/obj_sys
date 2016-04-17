@@ -25,10 +25,10 @@ ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # resource_booking_req_views_ajax = ModelView(BookingRequest, base_template="modal.html")
 
 ################################
-# The folloing codes can not be put in admin, otherwise there will be template error:
+# The following codes can not be put in admin, otherwise there will be template error:
 # Reverse for 'obj_sys_description_add' with arguments '()' and keyword arguments '{}' not found. 0 pattern(s) tried: []
 # Don't know why
-register_channel(UfsObj, ["ufs_url", "full_path", "descriptions__content"])
+register_channel(UfsObj, ["ufs_url", "uuid", "full_path", "descriptions__content"])
 register_channel(Description, ["content", ])
 
 
