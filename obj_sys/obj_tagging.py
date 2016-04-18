@@ -52,7 +52,7 @@ def get_or_create_objects_from_remote_or_local_url(web_url_or_qt_file_url, user,
 def append_tags_and_description_to_url(user, web_url_or_qt_file_url, str_of_tags, description,
                                        ufs_obj_type=UfsObj.TYPE_UFS_OBJ):
     if obj_tools.is_web_url(web_url_or_qt_file_url) or is_barcode(web_url_or_qt_file_url):
-        obj_saver = UfsUrlObj(web_url_or_qt_file_url, user)
+        obj_saver = UfsUrlObj(web_url_or_qt_file_url, user, ufs_obj_type=ufs_obj_type)
     else:
         obj_saver = UfsLocalObjSaver(user)
         obj_saver.init_with_qt_url(web_url_or_qt_file_url)

@@ -1,12 +1,11 @@
-# from django.conf.urls import patterns, include, url
-# import libsys
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
+from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
-from towel.modelview import ModelView
-from models import UfsObj
+# from towel.modelview import ModelView
+from models import UfsObj, Description
 from tagging.models import Tag
 from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
@@ -15,17 +14,27 @@ from api_ufs_obj_in_tree import UfsObjInTreeResource
 from ufs_obj_in_tree_view import ItemTreeView
 from rss import LatestEntriesFeed
 
+
 ufs_obj_resource = UfsObjResource()
 ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # tag_resource = TagResource()
 
-obj_views = ModelView(UfsObj)
+# obj_views = ModelView(UfsObj)
 
 # resource_views_ajax = ModelView(BookableResource, base_template="modal.html")
 # resource_booking_req_views_ajax = ModelView(BookingRequest, base_template="modal.html")
 
+################################
+# The following codes can not be put in admin, otherwise there will be template error:
+# Reverse for 'obj_sys_description_add' with arguments '()' and keyword arguments '{}' not found. 0 pattern(s) tried: []
+# Don't know why
+register_channel(UfsObj, ["ufs_url", "uuid", "full_path", "descriptions__content"])
+register_channel(Description, ["content", ])
+
 
 urlpatterns = patterns('',
+                       # place it at whatever base url you like
+                       # url(r'^ajax_select/', include(ajax_select_urls)),
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
                        url(r'^$', login_required(
                            ItemTreeView.as_view(item_class=UfsObj,
