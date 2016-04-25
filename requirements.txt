@@ -7,3 +7,4 @@ towel
 django-tastypie
 tzlocal
 django-compat
+django-ajax-selects

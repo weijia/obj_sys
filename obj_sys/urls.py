@@ -33,8 +33,6 @@ register_channel(Description, ["content", ])
 
 
 urlpatterns = patterns('',
-                       # place it at whatever base url you like
-                       # url(r'^ajax_select/', include(ajax_select_urls)),
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
                        url(r'^$', login_required(
                            ItemTreeView.as_view(item_class=UfsObj,
