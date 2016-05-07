@@ -1,13 +1,19 @@
-{% extends "checklist/tree.html" %}
+{% extends "mptt_tree_view/jquery_sortable_list.html" %}
 {% load mptt_tags %}
 {% load static %}
-{% block extrastyle %}
-{{ block.super }}
-<link rel="stylesheet" href="{% static 'tree.css'%}" type="text/css">
+
+{% block extra_js %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'tree.css'%}" type="text/css">
+    <link rel="stylesheet" href="http://qtip2.com/v/2.2.1/jquery.qtip.min.css" type="text/css">
+    <script src="http://qtip2.com/v/2.2.1/jquery.qtip.min.js" ></script>
+    <script src="{% static 'js/tagging_app.js' %}" ></script>
+    <script src="{% static 'obj_sys/js/obj_sys.js' %}" ></script>
 {% endblock %}
 {% block node_content %}
-    <a href="{{request.base_url}}?root={{node.pk}}">{{ node }}
-        {%for tag in  node.tags%}
+    <a href="{{request.base_url}}?root={{node.pk}}" class="tagged-item"
+       tags="{%for tag in node.tags%}{{tag.name}},{%endfor%}">{{ node }}
+        {%for tag in node.tags%}
             {{tag.name}}
         {%endfor%}
     </a>
