@@ -2,19 +2,31 @@
 {% load mptt_tags %}
 {% load static %}
 
-{% block extra_js %}
+{% block js %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'tree.css'%}" type="text/css">
-    <link rel="stylesheet" href="http://qtip2.com/v/2.2.1/jquery.qtip.min.css" type="text/css">
-    <script src="http://qtip2.com/v/2.2.1/jquery.qtip.min.js" ></script>
+    <link rel="stylesheet" href="{% static 'jquery.qtip.min.css'%}" type="text/css">
+    <!--<link rel="stylesheet" href="{% static 'obj_sys/js/tagator/fm.tagator.jquery.css'%}" type="text/css">-->
+    <!--<link rel="stylesheet"-->
+          <!--href="{% static 'obj_sys/js/jQuery-Tags-Input/dist/jquery.tagsinput.min.css'%}"-->
+          <!--type="text/css">-->
+    <!--<link rel="stylesheet" href="http://qtip2.com/v/2.2.1/jquery.qtip.min.css" type="text/css">-->
+    <!--<script src="http://qtip2.com/v/2.2.1/jquery.qtip.min.js" ></script>-->
+    <script src="{% static 'jquery.qtip.min.js' %}" ></script>
+    <script src="{% static 'js/tagging_ajax.js' %}" ></script>
     <script src="{% static 'js/tagging_app.js' %}" ></script>
+    <script src="{% static 'obj_sys/js/jQuery-Tags-Input/src/jquery.tagsinput.js' %}" ></script>
+    <!--<script src="{% static 'obj_sys/js/tagator/fm.tagator.jquery.js' %}" ></script>-->
     <script src="{% static 'obj_sys/js/obj_sys.js' %}" ></script>
 {% endblock %}
-{% block node_content %}
+
+{% block item_box %}
     <a href="{{request.base_url}}?root={{node.pk}}" class="tagged-item"
+       objectId="{{ node.pk }}" contentType="{{ content_type.pk }}"
        tags="{%for tag in node.tags%}{{tag.name}},{%endfor%}">{{ node }}
         {%for tag in node.tags%}
             {{tag.name}}
         {%endfor%}
     </a>
 {% endblock %}
+
