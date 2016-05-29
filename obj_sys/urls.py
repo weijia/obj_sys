@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
+from django_auto_filter.views_django_auto_filter import DjangoAutoFilter
 from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
 # from towel.modelview import ModelView
@@ -34,27 +35,19 @@ register_channel(Description, ["content", ])
 
 
 urlpatterns = patterns('',
-                       # url(r'^admin/', include(admin.site.urls)),
-
-                       )
-
-
-urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
-                       url(r'^$', login_required(
-                           ItemTreeView.as_view(item_class=UfsObj,
-                                                # default_level=2,
-                                                ufs_obj_type=UfsObj.TYPE_UFS_OBJ,
-                                                template_name='obj_sys/mptt_item_tree.html'))),
+                       url(r'^filter', login_required(
+                           DjangoAutoFilter.as_view(model_class=UfsObj,
+                                                    ajax_fields={"relations": "ufs_obj", "parent": "ufs_obj",
+                                                                 "descriptions": "description"}
+                                                    ))),
                        url(r'^tagging_local/$', login_required(AddTagTemplateViewLocal.as_view())),
                        url(r'^tagging/(?P<news_item_pk>\d+)/$', login_required(AddTagTemplateView.as_view()),
                            name="news-item"),
-                       url(r'^manager/$', 'obj_sys.views.manager'),
-                       url(r'^listing/$', 'obj_sys.views.listing'),
+                       # url(r'^manager/$', 'obj_sys.views.manager'),
                        url(r'^homepage/$', 'obj_sys.views.listing_with_description'),
                        (r'^latest/feed/$', LatestEntriesFeed()),
-                       # url(r'^qrcode/$', 'thumbapp.views.gen_qr_code'),
-                       # url(r'^image/$', 'thumbapp.views.image'),
+
                        url(r'^append_tags/$', 'obj_sys.obj_tagging.handle_append_tags_request'),
                        url(r'^query/$', 'obj_sys.views.query'),
                        url(r'^operations/', 'obj_sys.views.do_operation'),
@@ -75,10 +68,17 @@ urlpatterns = patterns('',
                            default_level=2,
                            ufs_obj_type=2,
                            template_name='obj_sys/jquery_sortable_list.html'))),
+                       url(r'^$', login_required(
+                           ItemTreeView.as_view(item_class=UfsObj,
+                                                # default_level=2,
+                                                ufs_obj_type=UfsObj.TYPE_UFS_OBJ,
+                                                template_name='obj_sys/mptt_item_tree.html'))),
+                       url(r'^obj_admin/', include(obj_sys_admin_site.urls)),
                        # (r'^api/tag/', include(tag_resource.urls)),
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
                        # url(r'^homepage_all/$', 'obj_sys.views.homepage'),
                        #  url(r'^ufs/', include(obj_views.urls)),
-                       url(r'^obj_admin/', include(obj_sys_admin_site.urls)),
+                       # url(r'^qrcode/$', 'thumbapp.views.gen_qr_code'),
+                       # url(r'^image/$', 'thumbapp.views.image'),
                        )

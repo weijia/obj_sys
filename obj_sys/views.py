@@ -44,12 +44,6 @@ def rm_objects_for_path(request):
         return HttpResponse(res, mimetype="application/json")
 
 
-def listing(request):
-    objects = UfsObj.objects.all()
-    return render_to_response('obj_sys/listing.html', {"objects": objects, "request": request},
-                              context_instance=RequestContext(request))
-
-
 @login_required
 def listing_with_description(request):
     data = retrieve_param(request)
