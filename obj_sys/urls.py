@@ -1,12 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
+from rest_framework.urlpatterns import format_suffix_patterns
 
 from django_auto_filter.filter_for_models import add_filter_to_url_for, get_filter_urls
 from django_auto_filter.views_django_auto_filter import DjangoAutoFilter
 from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
 from djangoautoconf.ajax_select_utils.channel_creator_for_model import create_channels_for_related_fields_in_model
-from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
+from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class, SerializerUrlGenerator, \
+    add_all_urls
 # from towel.modelview import ModelView
 from djangoautoconf.tastypie_utils import add_tastypie_for, get_tastypie_urls
 from models import UfsObj, Description
@@ -88,6 +90,4 @@ urlpatterns = patterns('',
                        # url(r'^image/$', 'thumbapp.views.image'),
                        )
 
-
-urlpatterns += get_tastypie_urls(models)
-urlpatterns += get_filter_urls(models)
+add_all_urls(urlpatterns, models)
