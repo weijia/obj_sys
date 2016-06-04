@@ -2,10 +2,13 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
+from django_auto_filter.filter_for_models import add_filter_to_url_for, get_filter_urls
 from django_auto_filter.views_django_auto_filter import DjangoAutoFilter
 from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
+from djangoautoconf.ajax_select_utils.channel_creator_for_model import create_channels_for_related_fields_in_model
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
 # from towel.modelview import ModelView
+from djangoautoconf.tastypie_utils import add_tastypie_for, get_tastypie_urls
 from models import UfsObj, Description
 from tagging.models import Tag
 from api import UfsObjResource
@@ -15,6 +18,7 @@ from api_ufs_obj_in_tree import UfsObjInTreeResource
 from obj_sys.admin import obj_sys_admin_site
 from ufs_obj_in_tree_view import ItemTreeView
 from rss import LatestEntriesFeed
+import models
 
 
 ufs_obj_resource = UfsObjResource()
@@ -30,8 +34,9 @@ ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # The following codes can not be put in admin, otherwise there will be template error:
 # Reverse for 'obj_sys_description_add' with arguments '()' and keyword arguments '{}' not found. 0 pattern(s) tried: []
 # Don't know why
-register_channel(UfsObj, ["ufs_url", "uuid", "full_path", "descriptions__content"])
-register_channel(Description, ["content", ])
+# register_channel(UfsObj, ["ufs_url", "uuid", "full_path", "descriptions__content"])
+# register_channel(Description, ["content", ])
+create_channels_for_related_fields_in_model(UfsObj)
 
 
 urlpatterns = patterns('',
@@ -82,3 +87,7 @@ urlpatterns = patterns('',
                        # url(r'^qrcode/$', 'thumbapp.views.gen_qr_code'),
                        # url(r'^image/$', 'thumbapp.views.image'),
                        )
+
+
+urlpatterns += get_tastypie_urls(models)
+urlpatterns += get_filter_urls(models)
