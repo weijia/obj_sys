@@ -7,9 +7,9 @@ from django_auto_filter.filter_for_models import add_filter_to_url_for, get_filt
 from django_auto_filter.views_django_auto_filter import DjangoAutoFilter
 from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
 from djangoautoconf.ajax_select_utils.channel_creator_for_model import create_channels_for_related_fields_in_model
-from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class, SerializerUrlGenerator, \
-    add_all_urls
 # from towel.modelview import ModelView
+from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
+from djangoautoconf.model_utils.url_for_models import add_all_urls
 from djangoautoconf.tastypie_utils import add_tastypie_for, get_tastypie_urls
 from models import UfsObj, Description
 from tagging.models import Tag
