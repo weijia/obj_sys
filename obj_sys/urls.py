@@ -18,6 +18,7 @@ from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
 from api_ufs_obj_in_tree import UfsObjInTreeResource
 from obj_sys.admin import obj_sys_admin_site
+from obj_sys.views import get_parent
 from ufs_obj_in_tree_view import ItemTreeView
 from rss import LatestEntriesFeed
 import models
@@ -43,6 +44,7 @@ create_channels_for_related_fields_in_model(UfsObj)
 
 urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
+                       url(r'^get_parent/$', login_required(get_parent)),
                        url(r'^filter', login_required(
                            DjangoAutoFilter.as_view(model_class=UfsObj,
                                                     ajax_fields={"relations": "ufs_obj", "parent": "ufs_obj",

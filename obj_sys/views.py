@@ -24,6 +24,13 @@ def query(request):
     return render_to_response('obj_sys/query.html', c)
 
 
+def get_parent(request):
+    ufs_url = retrieve_param(request)["ufs_url"]
+    res = {"meta": {"limit": 20, "next": None, "offset": 0, "previous": None, "total_count": 1},
+           "objects": [{"parent": UfsObj.objects.get(ufs_url=ufs_url).parent.ufs_url}]}
+    return JsonResponse(res)
+
+
 def rm_objects_for_path(request):
     data = retrieve_param(request)
     cnt = 0
