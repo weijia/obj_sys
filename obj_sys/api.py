@@ -100,7 +100,8 @@ class UfsObjResource(ModelResource):
         user = bundle.obj.user
         if not (user is None):
             bundle.data["username"] = user.username
-        bundle.data["parent"] = bundle.obj.parent.ufs_url
+        if bundle.obj.parent is not None:
+            bundle.data["parent"] = bundle.obj.parent.ufs_url
         return bundle
 
     '''
