@@ -51,7 +51,7 @@ class UserResource(ModelResource):
 class UfsObjResource(ModelResource):
     # json_indent = 2
     descriptions = fields.ToManyField(DescriptionResource, 'descriptions', full=True)
-    parent = fields.ForeignKey('self', 'parent', null=True)
+    # parent = fields.ForeignKey('self', 'parent', null=True)
 
     def get_object_list(self, request):
         # return super(UfsObjResource, self).get_object_list(request).filter(start_date__gte=now)
@@ -100,7 +100,7 @@ class UfsObjResource(ModelResource):
         user = bundle.obj.user
         if not (user is None):
             bundle.data["username"] = user.username
-        # bundle.data["parent"] = bundle.obj.parent.ufs_url
+        bundle.data["parent"] = bundle.obj.parent.ufs_url
         return bundle
 
     '''
