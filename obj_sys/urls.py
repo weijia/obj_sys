@@ -24,7 +24,7 @@ import models
 
 
 ufs_obj_resource = UfsObjResource()
-ufs_obj_in_tree_resource = UfsObjInTreeResource()
+# ufs_obj_in_tree_resource = UfsObjInTreeResource()
 # tag_resource = TagResource()
 
 # obj_views = ModelView(UfsObj)
@@ -67,7 +67,7 @@ urlpatterns = patterns('',
                            context_object_name='tagged_items',
                            template_name='obj_sys/pane.html')),
                        (r'^api/ufsobj/', include(ufs_obj_resource.urls)),
-                       (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
+                       # (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
                        (r'^tree_raw/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
                        (r'^tree/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
                        url(r'^ufs_obj_rest/(?P<pk>[0-9]+)/$', get_detail_api_class(UfsObj).as_view()),
