@@ -2,6 +2,7 @@ import datetime
 import os
 
 from django.utils import timezone
+from tagging.utils import parse_tag_input
 from tzlocal import get_localzone
 
 from obj_sys import obj_tools
@@ -47,10 +48,11 @@ class UfsObjSaverBase(object):
         self.obj, is_created = UfsObj.objects.get_or_create(**self.create_param)
         return self.obj, is_created
 
-    def append_tags(self, tag_name):
+    def append_tags(self, tags):
         if self.obj is None:
             raise ObjectIsNotAssigned
-        Tag.objects.add_tag(self.obj, tag_name, tag_app=self.tag_app)
+        for tag_name in parse_tag_input(tags):
+            Tag.objects.add_tag(self.obj, tag_name, tag_app=self.tag_app)
 
     def add_description(self, description):
         self.obj.descriptions.add(description)

@@ -115,7 +115,7 @@ class AddTagTemplateView(TemplateView):
             urls_with_tags.append(UrlTagPair(listed_url, tags_for_existing_url))
         return urls_with_tags
 
-    def tag_url(self, url_to_tag, ufs_obj_type):
+    def tag_url(self, url_to_tag, ufs_obj_type=UfsObj.TYPE_UFS_OBJ):
         if not (url_to_tag in self.tagged_urls):
             self.tagged_urls.append(url_to_tag)
             append_tags_and_description_to_url(self.request.user, url_to_tag,

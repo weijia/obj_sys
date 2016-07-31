@@ -3,6 +3,7 @@ __author__ = 'weijia'
 
 INSTALLED_APPS += (
     'mptt',
+    'reversion',
     'django_mptt_admin',
     'tagging',
     'ajax_select',
@@ -15,3 +16,7 @@ INSTALLED_APPS += (
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
 )
+
+# MIDDLEWARE_CLASSES += (
+#     'reversion.middleware.RevisionMiddleware',
+# )
