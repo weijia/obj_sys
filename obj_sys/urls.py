@@ -10,7 +10,6 @@ from djangoautoconf.ajax_select_utils.channel_creator_for_model import create_ch
 # from towel.modelview import ModelView
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
 from djangoautoconf.model_utils.url_for_models import add_all_urls
-from djangoautoconf.tastypie_utils import add_tastypie_for, get_tastypie_urls
 from models import UfsObj, Description
 from tagging.models import Tag
 from api import UfsObjResource
