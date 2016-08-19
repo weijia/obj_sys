@@ -43,7 +43,7 @@ create_channels_for_related_fields_in_model(UfsObj)
 
 urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
-                       url(r'^get_parent/$', login_required(get_parent)),
+                       url(r'^get_parent/$', get_parent),
                        url(r'^filter', login_required(
                            DjangoAutoFilter.as_view(model_class=UfsObj,
                                                     ajax_fields={"relations": "ufs_obj", "parent": "ufs_obj",

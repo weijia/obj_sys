@@ -9,7 +9,7 @@ import models
 # from djangoautoconf.auto_conf_admin_tools.filter_horizontal_feature import FilterHorizontalFeature
 # from djangoautoconf.auto_conf_admin_tools.foreign_key_auto_complete import ForeignKeyAutoCompleteFeature
 from djangoautoconf.auto_conf_admin_tools.reversion_feature import ReversionFeature
-from normal_admin.user_admin import UserAdminAuthenticationForm, get_admin_site
+# from normal_admin.user_admin import UserAdminAuthenticationForm, get_admin_site
 from obj_sys.models_ufs_obj import UfsObj
 
 
@@ -40,16 +40,16 @@ r.add_feature(ReversionFeature())
 r.register_all_models(models)
 
 
-obj_sys_admin_site = get_admin_site("ObjSysAdminSite")
-
-r = AdminRegister(admin_site_list=[obj_sys_admin_site], feature_list=[])
-a = AdminAttrFeature({"form": make_ajax_form(UfsObj, {"relations": "ufs_obj",
-                                                      "parent": "ufs_obj",
-                                                      "descriptions": "description"}),
-                      "list_filter": ('source', 'ufs_obj_type')
-                      })
-
-r.add_feature(a)
-r.add_feature(ReversionFeature())
-r.add_feature(AdminTaggingFeature())
-r.register(UfsObj)
+# obj_sys_admin_site = get_admin_site("ObjSysAdminSite")
+#
+# r = AdminRegister(admin_site_list=[obj_sys_admin_site], feature_list=[])
+# a = AdminAttrFeature({"form": make_ajax_form(UfsObj, {"relations": "ufs_obj",
+#                                                       "parent": "ufs_obj",
+#                                                       "descriptions": "description"}),
+#                       "list_filter": ('source', 'ufs_obj_type')
+#                       })
+#
+# r.add_feature(a)
+# r.add_feature(ReversionFeature())
+# r.add_feature(AdminTaggingFeature())
+# r.register(UfsObj)
