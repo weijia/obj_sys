@@ -16,7 +16,7 @@ from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
 from api_ufs_obj_in_tree import UfsObjInTreeResource
-from obj_sys.admin import obj_sys_admin_site
+# from obj_sys.admin import obj_sys_admin_site
 from obj_sys.views import get_parent
 from ufs_obj_in_tree_view import ItemTreeView
 from rss import LatestEntriesFeed
@@ -81,7 +81,7 @@ urlpatterns = patterns('',
                                                 # default_level=2,
                                                 ufs_obj_type=UfsObj.TYPE_UFS_OBJ,
                                                 template_name='obj_sys/mptt_item_tree.html'))),
-                       url(r'^obj_admin/', include(obj_sys_admin_site.urls)),
+                       # url(r'^obj_admin/', include(obj_sys_admin_site.urls)),
                        # (r'^api/tag/', include(tag_resource.urls)),
                        # url(r'^$', 'desktop.filemanager.views.index'),
                        # url(r'^.+$', 'desktop.filemanager.views.handler'),
