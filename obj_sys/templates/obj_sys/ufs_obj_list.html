@@ -12,7 +12,11 @@
         </h4>
         {% block item_actions %}
         <ul class="edit_links">
-            <li><a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}">Delete</a></li>
+            <li>
+                <a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}&next_url={{ request.path }}?{{ request.GET.urlencode }}">
+                    Delete
+                </a>
+            </li>
             <li class="date_time">{{ bookmark.timestamp|default_if_none:"" }}</li>
         </ul>
         {% endblock %}

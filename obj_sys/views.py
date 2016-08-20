@@ -71,6 +71,9 @@ def do_operation(request):
     next_url = "/obj_sys/homepage/"
     if "next_url" in data:
         next_url = data["next_url"]
+        for param in data:
+            if param not in ["cmd", "pk", "next_url"]:
+                next_url += "&%s=%s" % (param, data[param])
     return HttpResponseRedirect(next_url)
 
 
