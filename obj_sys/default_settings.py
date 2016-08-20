@@ -11,6 +11,7 @@ INSTALLED_APPS += (
     'geoposition',
     'obj_sys',
     # "obj_sys.apps.ObjSysConfig",
+    'endless_pagination',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS += (
