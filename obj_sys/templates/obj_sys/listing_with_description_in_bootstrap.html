@@ -5,7 +5,7 @@
 
 {% block js %}
     {{ block.super }}
-    <script type='text/javascript' src="{% static 'js/jquery-ui.js' %}"></script>
+    <!--<script type='text/javascript' src="{% static 'js/jquery-ui.js' %}"></script>-->
     <script type='text/javascript' src="{% static 'csrf.js' %}"></script>
     <!--<script type="text/javascript"-->
             <!--src="{% static 'js/jquery-sortable-lists/jquery-sortable-lists.js' %}"></script>-->
@@ -17,8 +17,8 @@
     <script>
     $(document).ready(function(){
         $.endlessPaginate({
-            pageSelector: 'ul#bookmark_list'
-            onCompleted: $(".tagged-item").taggingApp();
+            pageSelector: 'ul#bookmark_list',
+            onCompleted: function(){$(".tagged-item").taggingApp();}
         });
         //The following not working, seems we need to put the content directly in the body element
         //$.endlessPaginate({paginateOnScroll: true});
@@ -33,7 +33,9 @@
 {% endblock %}
 
 {% block container %}
-    {% include 'obj_sys/add_new_url.html' %}
+    {% block resource_list_tool_bar %}
+        {% include 'obj_sys/add_new_url.html' %}
+    {% endblock %}
         <ul id="bookmark_list">
             {% include 'obj_sys/ufs_obj_list.html' %}
         </ul>
