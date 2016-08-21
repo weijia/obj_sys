@@ -24,6 +24,13 @@ def query(request):
     return render_to_response('obj_sys/query.html', c)
 
 
+def get_parent(request):
+    ufs_url = retrieve_param(request)["ufs_url"]
+    res = {"meta": {"limit": 20, "next": None, "offset": 0, "previous": None, "total_count": 1},
+           "objects": [{"parent": UfsObj.objects.get(ufs_url=ufs_url).parent.ufs_url}]}
+    return JsonResponse(res)
+
+
 def rm_objects_for_path(request):
     data = retrieve_param(request)
     cnt = 0
@@ -42,12 +49,6 @@ def rm_objects_for_path(request):
         #TaggedItem.objects.filter(object__ufs_url__startswith=data["ufs_url"]).delete()
         UfsObj.objects.filter(ufs_url__startswith=prefix).delete()
         return HttpResponse(res, mimetype="application/json")
-
-
-def listing(request):
-    objects = UfsObj.objects.all()
-    return render_to_response('obj_sys/listing.html', {"objects": objects, "request": request},
-                              context_instance=RequestContext(request))
 
 
 @login_required
@@ -70,6 +71,9 @@ def do_operation(request):
     next_url = "/obj_sys/homepage/"
     if "next_url" in data:
         next_url = data["next_url"]
+        for param in data:
+            if param not in ["cmd", "pk", "next_url"]:
+                next_url += "&%s=%s" % (param, data[param])
     return HttpResponseRedirect(next_url)
 
 

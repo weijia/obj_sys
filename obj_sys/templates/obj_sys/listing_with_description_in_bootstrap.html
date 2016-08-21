@@ -1,39 +1,42 @@
 {% extends 'base.html' %}
 {% load pagination_tags %}
 {% load staticfiles%}
+{% load gen_tag_attr %}
+
+{% block js %}
+    {{ block.super }}
+    <!--<script type='text/javascript' src="{% static 'js/jquery-ui.js' %}"></script>-->
+    <script type='text/javascript' src="{% static 'csrf.js' %}"></script>
+    <!--<script type="text/javascript"-->
+            <!--src="{% static 'js/jquery-sortable-lists/jquery-sortable-lists.js' %}"></script>-->
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/checklist.css' %}" />-->
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-sortable-lists.css' %}" />-->
+    <script src="{% static 'obj_sys/js/obj_sys.js' %}" ></script>
+    {% include "tagging_app/tagging_head_inc.html" %}
+    <script src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
+    <script>
+    $(document).ready(function(){
+        $.endlessPaginate({
+            pageSelector: 'ul#bookmark_list',
+            onCompleted: function(){$(".tagged-item").taggingApp();}
+        });
+        //The following not working, seems we need to put the content directly in the body element
+        //$.endlessPaginate({paginateOnScroll: true});
+    });
+    </script>
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'obj_sys/css/styles.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'tagging.css'%}" type="text/css">
+{% endblock %}
 
 {% block container %}
-<link rel="stylesheet" href="{% static 'obj_sys/css/styles.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'tagging.css'%}" type="text/css">
-{% block resource_list_tool_bar %}
-<div><div class="add-new-url-div"><a class="btn" href="/obj_sys/tagging/">Add New URL</a></div>
-    <div class="both-clear-div"></div>
-</div>
-{% endblock %}
-{% autopaginate objects 5 %}
-<ul id="bookmark_list">
-    {% for bookmark in objects %}
-    <li class="bookmark">
-        <h4{% if not bookmark.author == user %} class="no_edit"{% endif %}>
-            <a href="{{ bookmark.ufs_url }}" target="_blank">{{ bookmark.ufs_url }}</a>
-            {%  for description in bookmark.descriptions.all %}
-            <p>{{ description.content }}</p>
-            {% endfor %}
-        </h4>
-        {% block item_actions %}
-        <ul class="edit_links">
-            <li><a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}">Delete</a></li>
-            <li class="date_time">{{ bookmark.timestamp|default_if_none:"" }}</li>
+    {% block resource_list_tool_bar %}
+        {% include 'obj_sys/add_new_url.html' %}
+    {% endblock %}
+        <ul id="bookmark_list">
+            {% include 'obj_sys/ufs_obj_list.html' %}
         </ul>
-        {% endblock %}
-        <ul class="tags">
-            {% for tag in bookmark.tags %}
-            <li><a href="">{{ tag.name }}</a></li>
-            {% endfor %}
-
-        </ul>
-    </li>
-    {% endfor %}
-</ul>
-{% paginate %}
 {% endblock %}

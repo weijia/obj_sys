@@ -1,0 +1,33 @@
+{% load endless %}
+
+{% paginate 5 object_list %}
+
+{% for bookmark in object_list %}
+    <li class="bookmark">
+        <h4 {% if not bookmark.author == user %} class="no_edit"{% endif %}>
+            <a href="{{ bookmark.ufs_url }}" target="_blank">{{ bookmark.ufs_url }}</a>
+            {%  for description in bookmark.descriptions.all %}
+                {% if description.content != bookmark.ufs_url %}
+                    <p>{{ description.content }}</p>
+                {% endif %}
+            {% endfor %}
+        </h4>
+        {% block item_actions %}
+        <ul class="edit_links">
+            <li>
+                <a href="/obj_sys/operations/?cmd=rm&pk={{ bookmark.pk }}&next_url={{ request.path }}?{{ request.GET.urlencode }}">
+                    Delete
+                </a>
+            </li>
+            <li class="date_time">{{ bookmark.timestamp|default_if_none:"" }}</li>
+        </ul>
+        {% endblock %}
+        <ul class="tags tagged-item" {{ bookmark|gen_tag_attr }}>
+            {% for tag in bookmark.tags %}
+            <li><a href="">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+{% show_pages %}
+

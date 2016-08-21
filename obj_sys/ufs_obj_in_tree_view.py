@@ -14,5 +14,5 @@ class ItemTreeView(TreeView):
 
     def get_context_data(self, **kwargs):
         content = super(ItemTreeView, self).get_context_data(**kwargs)
-        content["content_type"] = ContentType.objects.get(model="ufsobj")
+        # content["content_type"] = ContentType.objects.get(model="ufsobj")
         return content

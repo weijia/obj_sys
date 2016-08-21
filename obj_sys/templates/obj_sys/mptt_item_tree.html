@@ -11,7 +11,7 @@
 
 {% block item_box %}
     <a href="{{request.base_url}}?root={{node.pk}}" class="tagged-item no-drag"
-       {{ node|gen_tag_attr }} contentType="{{ content_type.pk }}">{{ node }}
+       {{ node|gen_tag_attr }} >{{ node }}
         {%for tag in node.tags%}
             {{tag.name}}
         {%endfor%}
