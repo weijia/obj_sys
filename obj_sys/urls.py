@@ -1,11 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
-from rest_framework.urlpatterns import format_suffix_patterns
 
-from django_auto_filter.filter_for_models import add_filter_to_url_for, get_filter_urls
-from django_auto_filter.views_django_auto_filter import DjangoAutoFilter
-from djangoautoconf.ajax_select_utils.ajax_select_channel_generator import register_channel
 from djangoautoconf.ajax_select_utils.channel_creator_for_model import create_channels_for_related_fields_in_model
 # from towel.modelview import ModelView
 from djangoautoconf.django_rest_framework_utils.serializer_generator import get_detail_api_class
@@ -15,7 +11,6 @@ from tagging.models import Tag
 from api import UfsObjResource
 from add_tag_template_view import AddTagTemplateView
 from add_tag_template_view_local import AddTagTemplateViewLocal
-from api_ufs_obj_in_tree import UfsObjInTreeResource
 # from obj_sys.admin import obj_sys_admin_site
 from obj_sys.views import get_parent
 from ufs_obj_in_tree_view import ItemTreeView
@@ -44,11 +39,11 @@ create_channels_for_related_fields_in_model(UfsObj)
 urlpatterns = patterns('',
                        url(r'^tagging/$', login_required(AddTagTemplateView.as_view())),
                        url(r'^get_parent/$', get_parent),
-                       url(r'^filter', login_required(
-                           DjangoAutoFilter.as_view(model_class=UfsObj,
-                                                    ajax_fields={"relations": "ufs_obj", "parent": "ufs_obj",
-                                                                 "descriptions": "description"}
-                                                    ))),
+                       # url(r'^filter', login_required(
+                       #     DjangoAutoFilter.as_view(model_class=UfsObj,
+                       #                              ajax_fields={"relations": "ufs_obj", "parent": "ufs_obj",
+                       #                                           "descriptions": "description"}
+                       #                              ))),
                        url(r'^tagging_local/$', login_required(AddTagTemplateViewLocal.as_view())),
                        url(r'^tagging/(?P<news_item_pk>\d+)/$', login_required(AddTagTemplateView.as_view()),
                            name="news-item"),
@@ -70,7 +65,7 @@ urlpatterns = patterns('',
                        (r'^api/ufsobj/', include(ufs_obj_resource.urls)),
                        # (r'^api/ufs_obj_in_tree/', include(ufs_obj_in_tree_resource.urls)),
                        (r'^tree_raw/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree.html')),
-                       (r'^tree/', ItemTreeView.as_view(template_name='obj_sys/mptt_tree_content_only.html')),
+                       (r'^tree/', ItemTreeView.as_view()),
                        url(r'^ufs_obj_rest/(?P<pk>[0-9]+)/$', get_detail_api_class(UfsObj).as_view()),
                        url(r'^mptt_tree_view/', login_required(ItemTreeView.as_view(
                            default_level=2,
