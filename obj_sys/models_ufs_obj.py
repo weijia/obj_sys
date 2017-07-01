@@ -81,7 +81,8 @@ class UfsObj(MPTTModel):
     source = models.IntegerField(choices=UFS_SOURCE_CHOICES, default=1, null=True, blank=True)
     source_ip = models.CharField(max_length=60, null=True, blank=True,
                                  help_text="IP address from which the object was posted")
-    position = GeopositionField(default=None, null=True, blank=True)
+    # The folloing can not use default=None, because this will cause initial for form be "None" instead of SQL: NULL
+    position = GeopositionField(blank=True)
     added_from_app = models.CharField(max_length=30, null=True, blank=True,
                                       help_text="the app name who added this entry")
 
