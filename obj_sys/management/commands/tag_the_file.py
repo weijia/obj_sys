@@ -34,6 +34,7 @@ class FileTagger(DjangoCmdBase):
         # pull_all_in_enumerable(enum_method)
         if os.path.exists(self.options["file_path"]):
             new_file_ufs_obj = UfsObj.objects.get_or_create(full_path=self.options["file_path"])
+            print "tagging %s with %s" % (self.options["file_path"], self.options["tags"])
             new_file_ufs_obj.tags = self.options["tags"]
 
 
